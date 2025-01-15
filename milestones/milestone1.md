@@ -14,7 +14,7 @@
 
 For each source please add a section with the following:
 
-### Data Source #1: {Name}
+### Data Source #1:
 
 - A URL to the data source.
 - Is the data coming from a webpage, bulk data, or an API?
