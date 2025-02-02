@@ -7,7 +7,6 @@
 - Jinny Kim ekim1208@uchicago.edu
 - Callie Leone clleone@uchicago.edu
 
-
 ## Abstract
 
 100-200 words explaining the general idea for your project.  Be sure to read
