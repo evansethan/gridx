@@ -42,10 +42,12 @@ def read_and_clean_outages(path) -> dict:
 
 
 def main():
-    path23 = "data/outages/2023_Annual_Summary.xls"
     path17 = "data/outages/2017_Annual_Summary.xls"
-    print(read_and_clean_outages(path23))
+    path23 = "data/outages/2023_Annual_Summary.xls"
+    
     print(read_and_clean_outages(path17))
+    print(read_and_clean_outages(path23))
+    
 
 
 if __name__ == "__main__":
