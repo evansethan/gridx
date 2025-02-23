@@ -12,8 +12,8 @@ Shapefiles representing the different areas of the North American Electric Relia
 OE-417
 Link: https://doe417.pnnl.gov/instructions
 Department of Energy
-Outage data (time, duration, number of customers affected) by U.S. region (NERC region for our purposes)
-(You can load and run the loading and cleaning of the OE-417 data in script/cleaning.py)
+Outage data (duration, number of customers affected) by U.S. region (NERC region for our purposes)
+(You can see the output of loading and cleaning of the OE-417 data with the command "uv run python3 script/cleaning.py")
 
 
 EIA-860M

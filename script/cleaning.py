@@ -19,7 +19,7 @@ def read_and_clean_outages(path) -> dict:
     dic = {}
     for _, row in df.iterrows():
 
-        # add datetime code here
+        # add datetime (duration) code here
 
         try: 
             start = row["Date Event Began"] + " " + str(row["Time Event Began"])
@@ -28,7 +28,7 @@ def read_and_clean_outages(path) -> dict:
             start = "error"
             end = "error"
 
-        if row["Number of Customers Affected"] == "Unknown" or row["Number of Customers Affected"] == np.nan:
+        if row["Number of Customers Affected"] == "Unknown": # need to handle NaN
             continue
         if row["NERC Region"] not in dic:
             dic[row["NERC Region"]] = int(row["Number of Customers Affected"])
@@ -38,6 +38,7 @@ def read_and_clean_outages(path) -> dict:
         outages.append((row["NERC Region"], start, end))
 
     return {x:y for x,y in dic.items() if y!=0}
+
 
 
 def main():
