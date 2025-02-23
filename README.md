@@ -1,14 +1,28 @@
-# Project Repository Template
-
 Overview:
 
-Data:
+This project aims to examine power outages and its association with energy generation sources in the United States. By analyzing the frequency and severity of power outages, we aim to explore patterns in grid reliability and generation mix across different regions and time periods. 
 
-NERC Regions - These are shapefiles representing the different areas of the North American Electric Reliability Corporation (NERC), which are largely power systems split across the US and Canada.
+Data Sources:
 
-July Generator 2023 is a csv of monthly generator inventory collected in a monthly survey from power plants’ Form EIA-860M. The data is broken down into rows of each generator at a facility with its technology type and megawatt capacity. This data can be aggregated to represent the total capacity of a plant, which itself can be broken down into total capacity by technology.
+NERC Regions
+Link: https://atlas.eia.gov/datasets/eia::nerc-regions/explore
+Energy Information Administration
+Shapefiles representing the different areas of the North American Electric Reliability Corporation (NERC), which are largely power systems split across the US and Canada.
 
-#In the final project, we will have December Generator 2023 or other csvs for different years to get a better representation of capacity over time while accounting for changes in energy usage and technology.
+OE-417
+Link: https://doe417.pnnl.gov/instructions
+Department of Energy
+Outage data (time, duration, number of customers affected) by U.S. region (NERC region for our purposes)
+
+
+EIA-860M
+Link: https://www.eia.gov/electricity/data/eia860m/v
+Energy Information Administration
+July Generator 2023 is a csv of monthly generator inventory collected in a monthly survey from power plants’ Form EIA-860M. The data is broken down into rows of each generator at a facility with its technology type and megawatt capacity. This data can be aggregated to represent the total capacity of a plant, which itself can be broken down into total capacity by technology. 
+
+(Note: In the final project, we will have December Generator 2023 or other csvs for different years to get a better representation of capacity over time while accounting for changes in energy usage and technology.)
+
+
 
 Data Processing:
 
@@ -25,11 +39,12 @@ There are three bucketing functions that return dictionaries mapping the special
 
 Data Visualization:
 
-`uv init`
+run “uv sync”
 
 [COMMAND TO RUN VISUALIZATION]
 
 To run the full program, run the command above. You should see [EXAMPLE] come up. You can toggle between years, and hover over each region to see the data in numeric form.
+
 
 
 
