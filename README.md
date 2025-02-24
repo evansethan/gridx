@@ -34,14 +34,22 @@ You can see the output of loading and cleaning of the OE-417 data with the comma
 “uv sync”
 "uv run python3 script/cleaning.py"
 
-The output shows each state's percentage of residents affected by an outage in 2023
+The output shows each state's percentage of residents affected by an outage in 2023.
 
 
-Additionally, script/load_data.ipynb has several functions, ranging from an initial parse of the data to bucketing the data by energy types. 
+You can see the output of loading and cleaning of the EIA-860M data with the commands
+
+“uv sync”
+"uv run python3 script/spatial_join.py" (this just loads the data for now)
+
+The output shows each NERC region's data, including the coordinates to its respective polygon.
+
+
+script/load_data.ipynb has several additional functions, which are not yet complete:
 
 Initial classes and data load - We define two classes: NERC and facility. The NERC class simply contains just the ID of a NERC region and its shapefile polygon. The facility object contains significantly more information, including the name and ID of the facility and its parent company, its capacity,  its location in latitude and longitude. Each facility is initially processed by generator, so its technology varies for each row it exists. The special ID is a combination of the ID of the plant and its parent company to unique identify the facility. Load_shapefiles and load_frs_csv are both functions that take the aforementioned NERC and EIA files then convert them into our NERC and facility objects.
 
-There are several functions carried over from PA 5 dealing with the creation of Quadtrees and bounding boxes. 
+There are several functions carried over from PA 5 dealing with the creation of Quadtrees and bounding boxes, and conducting spatial joins.
 
 There are three bucketing functions that return dictionaries mapping the special ID of a planet to its energy output. Get_plant_total provides the total capacity, get_fuel_total is capacity broken down by one of the provided energy sources ranging from oil to nuclear to wind, and get_energy_type_total takes the energy source buckets and aggregates them into three largescale buckets for green energy, fossil fuels, and nuclear power. 
 
