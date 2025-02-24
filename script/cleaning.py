@@ -12,12 +12,12 @@ def clean_outages(path):
     df.columns = df.iloc[0]
     df = df.drop(index=0)
 
-    # df = df[df["Number of Customers Affected"] != 0]
-    # df = df[df["Number of Customers Affected"] != "0"]
-    # df = df[df["Number of Customers Affected"] != "Unknown"]
+    df = df[df["Number of Customers Affected"] != 0]
+    df = df[df["Number of Customers Affected"] != "0"]
+    df = df[df["Number of Customers Affected"] != "Unknown"]
 
     for _, row in df.iterrows():
-        row["Area Affected"] = " ".join(re.findall(r"\b\w+:", row["Area Affected"])) # need to handle multiple states...
+        row["Area Affected"] = re.sub(r":.*", "", row["Area Affected"]) # need to handle multiple states
 
         if row["Area Affected"] not in state_pops_23.keys():
             if row["Area Affected"] == "LUMA Energy":
@@ -40,8 +40,6 @@ def build_outage_dict(path):
     for _, row in df.iterrows():
 
         num_affected = row["Number of Customers Affected"]
-        if num_affected == "Unknown":
-            continue
 
         state = row["Area Affected"]
         if row["Area Affected"] not in dic:
@@ -49,12 +47,8 @@ def build_outage_dict(path):
         else:
             dic[state] += int(num_affected)
 
-    # del dic["Arkansas, Mississippi"] # get rid of this eventually
-    # del dic["Wisconsin, Michigan"]
-    # del dic["Washington, Idaho, Montana"]
-    # del dic['Pacificorp']
-
-    return dic
+    del dic["Arkansas, Mississippi"] # get rid of this eventually
+    del dic["Wisconsin, Michigan"]
 
     return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic.items()} # handle multiple states
 
@@ -64,9 +58,12 @@ def main():
     path = "data/outages/2023_Annual_Summary.xls"
     
     dic = build_outage_dict(path)
-
+    print("")
+    print("")
+    print("Percent state residents affected by an outage (2023)")
+    print("----------------------------------------------------")
     for x,y in dic.items():
-        print (x, ":", y)
+        print (x, ":", y, "%")
     
 
 
