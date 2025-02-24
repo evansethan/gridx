@@ -26,7 +26,6 @@ July Generator 2023 is a csv of monthly generator inventory collected in a month
 We also included data/FEMA, which has weather-related data and shapefiles per census tract. This data is less likely to be included in the final project.
 
 
-
 Data Processing:
 
 You can see the output of loading and cleaning of the OE-417 data with the commands
@@ -34,7 +33,7 @@ You can see the output of loading and cleaning of the OE-417 data with the comma
 “uv sync”
 "uv run python3 script/cleaning.py"
 
-The output shows each state's percentage of residents affected by an outage in 2023.
+The output shows each state's percentage of residents affected by an outage in 2023. You can also run this for years 2016-2022 by changing the file name.
 
 
 You can see the output of loading and cleaning of the EIA-860M data with the commands
