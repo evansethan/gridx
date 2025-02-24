@@ -1,52 +1,72 @@
 import pandas as pd 
 import numpy as np
 from datetime import datetime, timedelta
-  
+from info import state_pops_23
+import re
 
 
-def read_and_clean_outages(path) -> dict:
-    '''
-    Reads outage data and returns dict of total customers affected by NERC region
-    '''
+def clean_outages(path):
 
-    # read an excel file and convert into a dataframe object 
     df = pd.DataFrame(pd.read_excel(path))
-    
+  
     df.columns = df.iloc[0]
     df = df.drop(index=0)
 
-    outages = []
+    # df = df[df["Number of Customers Affected"] != 0]
+    # df = df[df["Number of Customers Affected"] != "0"]
+    # df = df[df["Number of Customers Affected"] != "Unknown"]
+
+    for _, row in df.iterrows():
+        row["Area Affected"] = " ".join(re.findall(r"\b\w+:", row["Area Affected"])) # need to handle multiple states...
+
+        if row["Area Affected"] not in state_pops_23.keys():
+            if row["Area Affected"] == "LUMA Energy":
+                row["Area Affected"] = "Puerto Rico"
+            if row["Area Affected"] == "ISO New England":
+                row["Area Affected"] = "Connecticut" #, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont"
+            if row["Area Affected"] == "Otter Tail Power Co":
+                row["Area Affected"] = "Minnesota" #, North Dakota, South Dakota"
+            if "Western Area Power" in row["Area Affected"]:
+                row["Area Affected"] = "Montana" #, North Dakota, South Dakota, Nebraska, Iowa, Minnesota"
+                
+    return df
+
+
+def build_outage_dict(path):
+
+    df = clean_outages(path)
+
     dic = {}
     for _, row in df.iterrows():
 
-        # add datetime (duration) code here
-
-        try: 
-            start = row["Date Event Began"] + " " + str(row["Time Event Began"])
-            end = row["Date of Restoration"] + " " + str(row["Time of Restoration"])
-        except:
-            start = "error"
-            end = "error"
-
-        if row["Number of Customers Affected"] == "Unknown": # need to handle NaN
+        num_affected = row["Number of Customers Affected"]
+        if num_affected == "Unknown":
             continue
-        if row["NERC Region"] not in dic:
-            dic[row["NERC Region"]] = int(row["Number of Customers Affected"])
+
+        state = row["Area Affected"]
+        if row["Area Affected"] not in dic:
+            dic[state] = int(num_affected)
         else:
-            dic[row["NERC Region"]] += int(row["Number of Customers Affected"])
+            dic[state] += int(num_affected)
 
-        outages.append((row["NERC Region"], start, end))
+    # del dic["Arkansas, Mississippi"] # get rid of this eventually
+    # del dic["Wisconsin, Michigan"]
+    # del dic["Washington, Idaho, Montana"]
+    # del dic['Pacificorp']
 
-    return {x:y for x,y in dic.items() if y!=0}
+    return dic
+
+    return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic.items()} # handle multiple states
 
 
 
 def main():
-    path17 = "data/outages/2017_Annual_Summary.xls"
-    path23 = "data/outages/2023_Annual_Summary.xls"
+    path = "data/outages/2023_Annual_Summary.xls"
     
-    print(read_and_clean_outages(path17))
-    print(read_and_clean_outages(path23))
+    dic = build_outage_dict(path)
+
+    for x,y in dic.items():
+        print (x, ":", y)
     
 
 

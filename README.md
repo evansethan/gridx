@@ -29,11 +29,12 @@ We also included data/FEMA, which has weather-related data and shapefiles per ce
 
 Data Processing:
 
-You can see the output of loading and cleaning of the OE-417 data with the command
+You can see the output of loading and cleaning of the OE-417 data with the commands
 
+“uv sync”
 "uv run python3 script/cleaning.py"
 
-The output shows the number of customers affected by NERC region for 2017 and 2023, respectively.
+The output shows each state's percentage of residents affected by an outage in 2023
 
 
 Additionally, script/load_data.ipynb has several functions, ranging from an initial parse of the data to bucketing the data by energy types. 
@@ -47,13 +48,10 @@ There are three bucketing functions that return dictionaries mapping the special
 
 Data Visualization:
 
-run “uv sync”
+“uv sync”
+"uv run python3 script/visualization.py"
 
-[COMMAND TO RUN VISUALIZATION]
-
-To run the full program, run the command above. You should see [EXAMPLE] come up. You can toggle between years, and hover over each region to see the data in numeric form.
-
-In the meantime, script/basic_vis.ipynb has some sample visualizations, so you can get a sense of where we're headed. We'll likely end up using plotly.
+To run the full program, run the commands above. You should see a heat map of the United States come up. You can hover over each region to see the data in numeric form. Eventually we plan to add the ability to toggle between years, and show heatmaps for both outages and renewables usage.
 
 
 
