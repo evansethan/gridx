@@ -5,7 +5,7 @@ import shapefile
 import pandas as pd
 import csv
   
-class NERC(NamedTuple):
+class State(NamedTuple):
     id: str
     polygon: Polygon
 
@@ -20,20 +20,20 @@ class Plant(NamedTuple):
     tech: str
 
 
-def load_shapefiles(path: pathlib.Path) -> NERC:
+def load_shapefiles(path: pathlib.Path) -> State:
     """
     Extract and parse polygons from NERC shapefiles.
     """
-    nercs = []
+    states = []
     with shapefile.Reader(path) as sf:
         for shape_rec in sf.shapeRecords():
-            nercs.append(
-                NERC(
-                    id=shape_rec.record["NERC"],
+            states.append(
+                State(
+                    id=shape_rec.record["STUSPS"],
                     polygon=Polygon(shape_rec.shape.points),
                 )
             )
-    return nercs
+    return states
 
 def load_plant_csv(path: pathlib.Path) -> list[Plant]:
     """
@@ -58,29 +58,28 @@ def load_plant_csv(path: pathlib.Path) -> list[Plant]:
     return plants
 
 # We will replace this with a recursive function
-def spatial_join(plants: list, nercs: list) -> list[tuple[str, str]]:
+def spatial_join(plants: list, states: list) -> list[tuple[str, str]]:
 
-    plant_nerc = []
+    plant_state = []
 
     for plant in plants: 
         plant_point = Point(plant.longitude, plant.latitude)
-        for id, poly in nercs:
+        for id, poly in states:
             if poly.contains(plant_point):
-                plant_nerc.append((plant.id, id))
+                plant_state.append((plant.plantname, id))
                 break
             else:
                 continue
-    return plant_nerc
+    return plant_state
 
 def main():
-    nerc_path = "data/nerc_regions/NERC_Regions_EIA"
+    state_path = "data/state_regions/tl_2024_us_state"
     elec_path = "data/Renewables/july_generator2023.xlsx"
     
-    nercs = load_shapefiles(nerc_path)
+    states = load_shapefiles(state_path)
     plants = load_plant_csv(elec_path)
 
-    # print(spatial_join(plants, nercs))
-    print(nercs)
+    print(spatial_join(plants, states))
 
     
 
