@@ -53,7 +53,7 @@ run “uv sync”
 
 To run the full program, run the command above. You should see [EXAMPLE] come up. You can toggle between years, and hover over each region to see the data in numeric form.
 
-In the meantime, visualization/basic_vis.ipynb has some sample visualizations, so you can get a sense of where we're headed. We'll likely end up using plotly.
+In the meantime, script/basic_vis.ipynb has some sample visualizations, so you can get a sense of where we're headed. We'll likely end up using plotly.
 
 
 
