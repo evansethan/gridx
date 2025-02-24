@@ -4,6 +4,7 @@ import pathlib
 import shapefile
 import pandas as pd
 import csv
+from quadtree import quadtree_spatial_join
   
 class State(NamedTuple):
     id: str
@@ -57,20 +58,6 @@ def load_plant_csv(path: pathlib.Path) -> list[Plant]:
             )
     return plants
 
-# We will replace this with a recursive function
-def spatial_join(plants: list, states: list) -> list[tuple[str, str]]:
-
-    plant_state = []
-
-    for plant in plants: 
-        plant_point = Point(plant.longitude, plant.latitude)
-        for id, poly in states:
-            if poly.contains(plant_point):
-                plant_state.append((plant.plantname, id))
-                break
-            else:
-                continue
-    return plant_state
 
 def main():
     state_path = "data/state_regions/tl_2024_us_state"
@@ -79,7 +66,7 @@ def main():
     states = load_shapefiles(state_path)
     plants = load_plant_csv(elec_path)
 
-    print(spatial_join(plants, states))
+    print(quadtree_spatial_join(plants, states))
 
     
 
