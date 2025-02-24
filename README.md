@@ -32,7 +32,6 @@ Link: https://doe417.pnnl.gov/instructions
 Department of Energy
 Outage data (duration, number of customers affected) by U.S. region (NERC region for our purposes)
 
-
 EIA-860M (data/renewables)
 Link: https://www.eia.gov/electricity/data/eia860m/v
 Energy Information Administration

@@ -61,7 +61,6 @@ def load_plant_csv(path: pathlib.Path) -> list[Plant]:
 def spatial_join(plants: list, nercs: list) -> list[tuple[str, str]]:
 
     plant_nerc = []
-
     for plant in plants: 
         plant_point = Point(plant.longitude, plant.latitude)
         for id, poly in nercs:
