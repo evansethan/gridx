@@ -34,7 +34,7 @@ You can see the output of loading and cleaning of the OE-417 data with the comma
 “uv sync”
 "uv run python3 script/cleaning.py"
 
-The output shows the number of customers affected by NERC region for 2017 and 2023, respectively.
+The output shows each state's percentage of residents affected by an outage in 2023
 
 
 Additionally, script/load_data.ipynb has several functions, ranging from an initial parse of the data to bucketing the data by energy types. 
