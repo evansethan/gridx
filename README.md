@@ -42,7 +42,8 @@ You can see the output of loading and cleaning of the EIA-860M data with the com
 “uv sync”
 "uv run python3 script/spatial_join.py" (this just loads the data for now)
 
-The output shows each NERC region's data, including the coordinates to its respective polygon.
+The output shows each NERC region's data, including the coordinates to its respective polygon. However, it's important to note that we plan to change our regions of study from NERC regions to
+U.S. States.
 
 
 script/load_data.ipynb has several additional functions, which are not yet complete:
@@ -59,7 +60,7 @@ Data Visualization:
 “uv sync”
 "uv run python3 script/visualization.py"
 
-To run the full program, run the commands above. You should see a heat map of the United States come up. You can hover over each region to see the data in numeric form. Eventually we plan to add the ability to toggle between years, and show heatmaps for both outages and renewables usage.
+To run the full program, run the commands above. You should see a heat map of the United States come up showing outage severity data from 2021 (you can choose any year from 2016-2023. population will only be from 2023, so percentages will be slightly off in years that are not 2023. We will fix this.). You can hover over each region to see the data in numeric form. Eventually we plan to add the ability to toggle between years, and show heatmaps for both outages and renewables usage.
 
 
 
