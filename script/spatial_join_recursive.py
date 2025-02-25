@@ -66,7 +66,7 @@ def main():
     states = load_shapefiles(state_path)
     plants = load_plant_csv(elec_path)
 
-    print(quadtree_spatial_join(plants, states))
+    print(len(quadtree_spatial_join(plants, states)))
 
     
 

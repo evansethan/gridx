@@ -61,7 +61,7 @@ def load_plant_csv(path: pathlib.Path) -> list[Plant]:
 def spatial_join(plants: list, states: list) -> list[tuple[str, str]]:
 
     plant_state = []
-
+    
     for plant in plants: 
         plant_point = Point(plant.longitude, plant.latitude)
         for id, poly in states:
@@ -70,6 +70,7 @@ def spatial_join(plants: list, states: list) -> list[tuple[str, str]]:
                 break
             else:
                 continue
+        
     return plant_state
 
 def main():
@@ -79,6 +80,7 @@ def main():
     states = load_shapefiles(state_path)
     plants = load_plant_csv(elec_path)
 
+    print(len(spatial_join(plants, states)))
     print(spatial_join(plants, states))
 
     

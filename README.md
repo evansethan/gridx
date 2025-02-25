@@ -40,6 +40,9 @@ July Generator 2023 is a csv of monthly generator inventory collected in a month
 (Note: In the final project, we will have December Generator 2023 or other csvs for different years to get a better representation of capacity over time while accounting for changes in energy usage and technology.)
 
 
+Bulk Renewables data: https://www.eia.gov/state/seds/seds-data-complete.php
+
+
 We also included data/FEMA, which has weather-related data and shapefiles per census tract. This data is less likely to be included in the final project.
 
 
