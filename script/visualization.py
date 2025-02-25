@@ -12,6 +12,7 @@ def show_map(path, year):
     fig = px.choropleth(df, locations="abbrev", locationmode="USA-states", color="outage severity", range_color=(0, 10), scope="usa", title=f"{year} Outage Severity by U.S. State")
     fig.show()
 
+
 def main():
 
     path = f"data/outages/2023_Annual_Summary.xls"

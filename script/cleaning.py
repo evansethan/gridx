@@ -42,7 +42,7 @@ def clean_outages(path):
             # if 'Fentress County' in row["Area Affected"]:
             #     row["Area Affected"] = "Tennessee"
             else:
-                row["Area Affected"] = "Puerto Rico" # fix this
+                row["Area Affected"] = "Puerto Rico" # fix this .....................
                 
     return df
 
