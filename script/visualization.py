@@ -15,8 +15,8 @@ def show_map(path, year):
 
 def main():
 
-    path = f"data/outages/2023_Annual_Summary.xls"
-    show_map(path, 2023)
+    path = f"data/outages/2016_Annual_Summary.xls"
+    show_map(path, 2016)
 
     # for i in range(2016, 2024):
     #     path = f"data/outages/{i}_Annual_Summary.xls" # can run data from 2016-2023 (population counts used for percentages are from 2023 only, we will fix this)
