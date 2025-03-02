@@ -19,22 +19,30 @@ def clean_outages(path):
         if row["Area Affected"] not in state_pops_23.keys():
             if row["Area Affected"] == "LUMA Energy":
                 row["Area Affected"] = "Puerto Rico"
-            if row["Area Affected"] == "ISO New England":
+            elif row["Area Affected"] == "ISO New England":
                 row["Area Affected"] = "Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont"
-            if row["Area Affected"] == "Otter Tail Power Co":
+            elif row["Area Affected"] == "Otter Tail Power Co":
                 row["Area Affected"] = "Minnesota, North Dakota, South Dakota"
-            if "Western Area Power" in row["Area Affected"]:
+            elif "Western Area Power" in row["Area Affected"]:
                 row["Area Affected"] = "Montana, North Dakota, South Dakota, Nebraska, Iowa, Minnesota"
-            if row["Area Affected"] == 'Northern and Central California;':
+            elif row["Area Affected"] == 'Northern and Central California;' or 'Pacific Gas' in row["Area Affected"]:
                 row["Area Affected"] = "California"
-            if row["Area Affected"] == 'Central Oklahoma':
+            elif row["Area Affected"] == 'Central Oklahoma':
                 row["Area Affected"] = "Oklahoma"
+            elif row["Area Affected"] == 'Pacificorp':  
+                row["Area Affected"] = "Oregon, California, Washington, Oregon, Utah, Wyoming, Idaho"
+            elif row["Area Affected"] == 'Tampa Electric Company' or row["Area Affected"] == 'Seminole Electric Cooperative Inc':  
+                row["Area Affected"] = "Florida"
+            elif row["Area Affected"] == 'Tucson Electric Power':
+                row["Area Affected"] = "Arizona"
             # if row["Area Affected"] == 'Northern California':  
             #     row["Area Affected"] = "California"
             # if 'Northern/North Eastern' in row["Area Affected"]:
             #     row["Area Affected"] = "Georgia"
             # if 'Fentress County' in row["Area Affected"]:
             #     row["Area Affected"] = "Tennessee"
+            else:
+                row["Area Affected"] = "Puerto Rico" # fix this .....................
                 
     return df
 
@@ -60,23 +68,29 @@ def build_outage_dict(path):
     dic2 = {}
     for lst, count in dic.items():
         states = lst.split(",")
-        if count == 0:
-            continue
+        # if count == 0:
+        #     continue
         total = 0
         for state in states:
             total += state_pops_23[state.strip()]
         for state in states:
             state = state.strip()
+
+            percent_affected = count*(state_pops_23[state]/total) # control for differing state pops
+
             if state not in dic2:
-                dic2[state.strip()] = count*(state_pops_23[state]/total) # handle differing state populations
+                dic2[state] = percent_affected
             else:
-                dic2[state.strip()] += count*(state_pops_23[state]/total) # pytest this
+                dic2[state] += percent_affected
+
+            if dic2[state] > state_pops_23[state]: # this could be cleaner
+                dic2[state] = state_pops_23[state] # account for sum of total affected customers > state pop
 
     return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic2.items()}
 
 
 def main():
-    path = "data/outages/2023_Annual_Summary.xls" # year <= 2015 diff format need to handle
+    path = "data/outages/2023_Annual_Summary.xls" # year < 2016 diff format need to handle
     
     dic = build_outage_dict(path)
     print("")
