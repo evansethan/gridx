@@ -10,9 +10,8 @@ def newfile(path):
         for row in csv.DictReader(f):
             dic = {}
             if row["DAMAGE_PROPERTY"] == '' or row["DAMAGE_PROPERTY"] == '0.00K':
-                continue
-            elif row["DAMAGE_CROPS"] == '' or row["DAMAGE_CROPS"] == '0.00K':
-                continue
+                if row["DAMAGE_CROPS"] == '' or row["DAMAGE_CROPS"] == '0.00K':
+                    continue
 
             state = ' '.join(word.capitalize() for word in row["STATE"].split()) # normalize state name
             dic["year"] = row["YEAR"]
