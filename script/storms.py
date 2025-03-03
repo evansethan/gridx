@@ -22,17 +22,22 @@ def import_storms(path):
             else:
                 dic[row["STATE"].lower()] += damage
 
-    state_damage = {}
-    for state, cost in dic.items():
-        
-        state_damage
+    # return dic
 
-    return dic
+    state_damage = {}
+    for text, cost in dic.items():
+        state = ' '.join(word.capitalize() for word in text.split())
+        
+        if state in state_pops_23:
+            state_damage[state] = round(cost/state_pops_23[state], 2)
+
+
+    return state_damage
 
 def main():
-    dic = import_storms("data/storms/2023.csv")
+    dic = import_storms("data/storms/2020.csv")
 
-    print(dic)
+    print(dic['iowa'], dic["louisiana"])
 
 if __name__ == "__main__":
     main()
