@@ -16,7 +16,7 @@ def newfile(path):
             state = ' '.join(word.capitalize() for word in row["STATE"].split()) # normalize state name
             dic["year"] = row["YEAR"]
             dic["state"] = state
-            dic["property_damage"] = row["DAMAGE_PROPERTY"] # only include property damage
+            dic["property_damage"] = row["DAMAGE_PROPERTY"]
             dic["crop_damage"] = row["DAMAGE_CROPS"]
 
             lst.append(dic)
