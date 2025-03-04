@@ -97,20 +97,20 @@ def build_storms_dict(path):
     with open(path, "r") as f:
         
         for row in csv.DictReader(f):
-            if row["DAMAGE_PROPERTY"] == "0.00K" or row["DAMAGE_PROPERTY"] == '':
+            if row["property_damage"] == "0.00K" or row["property_damage"] == '': # crop damage too?
                 continue
 
-            if "K" in row["DAMAGE_PROPERTY"]:
-                damage = float(row["DAMAGE_PROPERTY"][:-1]) * 1000
-            if "M" in row["DAMAGE_PROPERTY"]:
-                damage = float(row["DAMAGE_PROPERTY"][:-1]) * 1000000
-            if "B" in row["DAMAGE_PROPERTY"]:
-                damage = float(row["DAMAGE_PROPERTY"][:-1]) * 1000000000
+            if "K" in row["property_damage"]:
+                damage = float(row["property_damage"][:-1]) * 1000
+            if "M" in row["property_damage"]:
+                damage = float(row["property_damage"][:-1]) * 1000000
+            if "B" in row["property_damage"]:
+                damage = float(row["property_damage"][:-1]) * 1000000000
 
-            if row["STATE"].lower() not in dic:
-                dic[row["STATE"].lower()] = damage
+            if row["state"].lower() not in dic:
+                dic[row["state"].lower()] = damage
             else:
-                dic[row["STATE"].lower()] += damage
+                dic[row["state"].lower()] += damage
 
     # return dic
 

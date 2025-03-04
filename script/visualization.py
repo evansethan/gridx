@@ -32,7 +32,7 @@ def main():
     #     show_storm_map(path, i)
 
     i = 2016
-    path = f"data/storms/{i}.csv"
+    path = f"data/storms/storms_{i}.csv"
     show_storm_map(path, i)
 
     
