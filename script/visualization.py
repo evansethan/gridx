@@ -24,16 +24,18 @@ def show_storm_map(path, year):
 
 def main():
 
-    # path = f"data/outages/2016_Annual_Summary.xls"
-    # show_outage_map(path, 2016)
+    i = 2016
+    path = f"data/outages/{i}_Annual_Summary.xls"
+    show_outage_map(path, i)
+    path = f"data/storms/storms_{i}.csv"
+    show_storm_map(path, i)
+
 
     # for i in range(2016, 2024):
     #     path = f"data/storms/{i}.csv"
     #     show_storm_map(path, i)
 
-    i = 2016
-    path = f"data/storms/storms_{i}.csv"
-    show_storm_map(path, i)
+
 
     
 
