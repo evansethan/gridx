@@ -1,6 +1,8 @@
 from script.scratch import cleaning, visualization #check this
 import pytest
 
+#check to make sure the population data is correct
+
 def test_get_renewable_production():
     basic_dict = visualization.get_renewable_production() #what to do if just one year entered?
     assert len(basic_dict) == 7, "Expected seven years in the dictionary"
@@ -15,4 +17,9 @@ def test_clean_outages():
     output = cleaning.clean_outages(path)
     assert "LUMA Energy" not in output #need to test by row?
     assert "Pacific Gas" not in output
+
+def test_build_outage_dict():
+
+
+def test_build_storms_dict():
     
