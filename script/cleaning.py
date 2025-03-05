@@ -5,6 +5,7 @@ from info import state_pops_23
 import re
 import csv
 
+
 def get_renewable_production():
 
     """Produces a dictionary of dictionaries for 2016-2022

@@ -4,6 +4,7 @@ from info import state_abbrev
 from cleaning import build_outage_dict, build_storms_dict
 from renewables_dict import build_re_dict
 
+
 def build_data_frame(path, year, column, build_function):
 
     dic = build_function(path) # calculate overall outage severity for the year to include in map
