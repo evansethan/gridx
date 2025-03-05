@@ -3,6 +3,7 @@ import numpy as np
 from datetime import datetime, timedelta
 from info import state_pops_23
 import re
+import csv
 
 
 def clean_outages(path):
@@ -87,6 +88,42 @@ def build_outage_dict(path):
                 dic2[state] = state_pops_23[state] # account for sum of total affected customers > state pop
 
     return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic2.items()}
+
+
+
+def build_storms_dict(path):
+    
+    dic = {}
+    with open(path, "r") as f:
+        
+        for row in csv.DictReader(f):
+            if row["property_damage"] == "0.00K" or row["property_damage"] == '': # crop damage too?
+                continue
+
+            if "K" in row["property_damage"]:
+                damage = float(row["property_damage"][:-1]) * 1000
+            if "M" in row["property_damage"]:
+                damage = float(row["property_damage"][:-1]) * 1000000
+            if "B" in row["property_damage"]:
+                damage = float(row["property_damage"][:-1]) * 1000000000
+
+            if row["state"].lower() not in dic:
+                dic[row["state"].lower()] = damage
+            else:
+                dic[row["state"].lower()] += damage
+
+    # return dic
+
+    state_damage = {}
+    for text, cost in dic.items():
+        state = ' '.join(word.capitalize() for word in text.split())
+        
+        if state in state_pops_23:
+            state_damage[state] = round(cost/state_pops_23[state], 2)
+
+
+    return state_damage # needs testing
+
 
 
 def main():
