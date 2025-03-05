@@ -87,7 +87,7 @@ def main():
     ## outages
     appended_outage_data = []
     for year in range(2016, 2023):
-        path = f"../data/outages/{year}_Annual_Summary.xls"
+        path = f"data/outages/{year}_Annual_Summary.xls"
         data = build_data_frame(path, year, 'outage severity', build_outage_dict)
         appended_outage_data.append(data)
     appended_outage_data = pd.concat(appended_outage_data)
@@ -97,7 +97,7 @@ def main():
     ## storms
     appended_storm_data = []
     for year in range(2016, 2023):
-        path = f"../data/storms/storms_{year}.csv"
+        path = f"data/storms/storms_{year}.csv"
         data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
         appended_storm_data.append(data)
     appended_storm_data = pd.concat(appended_storm_data)
@@ -106,7 +106,7 @@ def main():
 
     ## renewables
     appended_re_data = []
-    path = "../data/Renewables/prod_btu_re_te.xlsx"
+    path = "data/Renewables/prod_btu_re_te.xlsx"
     for year in range(2016, 2023):
         data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
         appended_re_data.append(data)
