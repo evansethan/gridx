@@ -48,9 +48,14 @@ def show_re_map(df):
     print(df)
     fig = px.choropleth(df, locations="state", locationmode="USA-states", 
                         color="Renewable Percent", range_color=(0,1), 
+                        color_continuous_scale="GnBu",
                         scope="usa", 
-                        title="Renewable Generation by U.S. State, 2022",
                         animation_frame="year")
+    fig.update_traces(marker_line_width=0, marker_opacity=0.8)
+    fig.update_layout(title_text="Renewable Generation by U.S. State, 2022", title_x=0.5)
+    fig.update_geos(
+    showsubunits=True, subunitcolor="black"
+    )
     fig.show()
 
 def main():
