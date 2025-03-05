@@ -5,15 +5,14 @@ from info import state_pops_23
 import re
 import csv
 
-
-def get_renewable_production():
+def build_re_dict(path, year):
 
     """Produces a dictionary of dictionaries for 2016-2022
     mapping each year to the 50 states's renewable energy % of production."""
     start_year = 2016
     end_year = 2022
     years_to_analyze = list(range(start_year, end_year + 1))
-    renewable_path = "data/renewables/prod_btu_re_te.xlsx" #for proofing
+    renewable_path = path #for proofing
     #renewable_path = Path(__file__).parent / "data" / "Renewables" / "prod_btu_re_te.xlsx"
     final_dict = {} 
     renewables_excel = pd.ExcelFile(renewable_path)
@@ -30,8 +29,9 @@ def get_renewable_production():
             if state in all_state_dict:
                 all_state_dict[state]["Total energy production"] = row[year]
         for us_state, energy_dict in all_state_dict.items():
-            renewable_dict[us_state] = energy_dict["Total renewables"]/energy_dict["Total energy production"]
+            renewable_dict[us_state] = round((energy_dict["Total renewables"]/energy_dict["Total energy production"])*100, 1)
         final_dict[year] = renewable_dict
+
     return final_dict
 
 
