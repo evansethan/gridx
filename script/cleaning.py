@@ -54,7 +54,7 @@ def clean_outages(path):
                 row["Area Affected"] = "Minnesota, North Dakota, South Dakota"
             elif "Western Area Power" in row["Area Affected"]:
                 row["Area Affected"] = "Montana, North Dakota, South Dakota, Nebraska, Iowa, Minnesota"
-            elif row["Area Affected"] == 'Northern and Central California;' or 'Pacific Gas' in row["Area Affected"]:
+            elif row["Area Affected"] == 'Northern and Central California;' or 'Pacific Gas' in row["Area Affected"]: #Why not change this to "row["Area Affected"] == "Pacific Gas"?" - Ganon
                 row["Area Affected"] = "California"
             elif row["Area Affected"] == 'Central Oklahoma':
                 row["Area Affected"] = "Oklahoma"
@@ -151,7 +151,6 @@ def build_storms_dict(path):
 
 
     return state_damage # needs testing
-
 
 
 def main():
