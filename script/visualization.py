@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 from info import state_abbrev
 from cleaning import build_outage_dict, build_storms_dict
-from renewables_dict import get_renewable_production
+from renewables_dict import build_re_dict
 
 def build_data_frame(path, year, column, build_function):
 
@@ -17,7 +17,6 @@ def show_outage_map(df):
 
     # dic = data # calculate overall outage severity for the year to include in map
     # df = pd.DataFrame(list(dic.items()), columns=['state', 'outage severity', 'year'])
-    
     df['abbrev'] = df['state'].map(state_abbrev)
     fig = px.choropleth(df, locations="abbrev", locationmode="USA-states", 
                         color="outage severity", range_color=(0, 10), scope="usa", 
@@ -45,11 +44,12 @@ def show_re_map(df):
     # dic = build_storms_dict(path) 
     # df = pd.DataFrame(list(dic.items()), columns=['state', 'cost per resident'])
     
-    df['abbrev'] = df['State'].map(state_abbrev)
-    fig = px.choropleth(df, locations="abbrev", locationmode="USA-states", 
-                        color="re by state", range_color=(10, 100), 
+    # df['abbrev'] = df['state'].map(state_abbrev)
+    print(df)
+    fig = px.choropleth(df, locations="state", locationmode="USA-states", 
+                        color="Renewable Percent", range_color=(0,1), 
                         scope="usa", 
-                        title="Renewable Generation by U.S. State, 2014-2024",
+                        title="Renewable Generation by U.S. State, 2022",
                         animation_frame="year")
     fig.show()
 
@@ -63,7 +63,7 @@ def main():
         appended_outage_data.append(data)
     appended_outage_data = pd.concat(appended_outage_data)
 
-    # show_outage_map(appended_outage_data)
+    show_outage_map(appended_outage_data)
     
     ## storms
     appended_storm_data = []
@@ -73,10 +73,13 @@ def main():
         appended_storm_data.append(data)
     appended_storm_data = pd.concat(appended_storm_data)
 
-    # show_storm_map(appended_storm_data)
+    show_storm_map(appended_storm_data)
 
     ## renewables
-    print(get_renewable_production(start_year=2016, end_year=2022))
+    re_data = build_data_frame("../data/Renewables/prod_btu_re_te.xlsx", "2022",
+                               "Renewable Percent", build_re_dict)
+    
+    show_re_map(re_data)
     # path = f"../data/Renewables/prod_btu_re_te.xlsx"
     # re_data = build_data_frame(path, year, 'Renewable Percent', get_renewable_production)
 
