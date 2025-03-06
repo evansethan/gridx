@@ -9,14 +9,14 @@ def build_re_dict(path, year):
 
     """Produces a dictionary of dictionaries for 2016-2022
     mapping each year to the 50 states's renewable energy % of production."""
-    start_year = 2016
+    start_year = 1980
     end_year = 2022
     years_to_analyze = list(range(start_year, end_year + 1))
     renewable_path = path #for proofing
     #renewable_path = Path(__file__).parent / "data" / "Renewables" / "prod_btu_re_te.xlsx"
     final_dict = {} 
     renewables_excel = pd.ExcelFile(renewable_path)
-    total_renewables_sheet = pd.read_excel(renewables_excel, "Total renewables", header=2)
+    total_renewables_sheet = pd.read_excel(renewables_excel, "Other renewables", header=2) # changed to other
     total_energy_production_sheet = pd.read_excel(renewables_excel, "Total primary energy", header=2)
     for year in years_to_analyze:
         all_state_dict = {}
@@ -126,8 +126,9 @@ def build_storms_dict(path):
     with open(path, "r") as f:
         
         for row in csv.DictReader(f):
-            if row["property_damage"] == "0.00K" or row["property_damage"] == '': # crop damage too?
-                continue
+            if row["property_damage"] == "0.00K" or row["property_damage"] == '':
+                if row["crop_damage"] == "0.00K" or row["crop_damage"] == '':
+                    continue
 
             if "K" in row["property_damage"]:
                 damage = float(row["property_damage"][:-1]) * 1000
@@ -135,6 +136,13 @@ def build_storms_dict(path):
                 damage = float(row["property_damage"][:-1]) * 1000000
             if "B" in row["property_damage"]:
                 damage = float(row["property_damage"][:-1]) * 1000000000
+            
+            if "K" in row["crop_damage"]:
+                damage += float(row["crop_damage"][:-1]) * 1000
+            if "M" in row["crop_damage"]:
+                damage += float(row["crop_damage"][:-1]) * 1000000
+            if "B" in row["crop_damage"]:
+                damage += float(row["crop_damage"][:-1]) * 1000000000
 
             if row["state"].lower() not in dic:
                 dic[row["state"].lower()] = damage
