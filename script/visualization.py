@@ -1,6 +1,5 @@
 import pandas as pd
 import plotly.express as px
-import pandas as pd
 from pathlib import Path
 from info import state_abbrev
 from cleaning import build_outage_dict, build_storms_dict, build_re_dict
@@ -36,7 +35,9 @@ def show_outage_map(df):
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    fig.show()
+    # fig.show()
+
+    return fig
 
 
 def show_storm_map(df):
@@ -58,7 +59,9 @@ def show_storm_map(df):
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    fig.show()
+    # fig.show()
+
+    return fig
 
 
 def show_re_map(df):
@@ -67,7 +70,6 @@ def show_re_map(df):
     # df = pd.DataFrame(list(dic.items()), columns=['state', 'cost per resident'])
     
     # df['abbrev'] = df['state'].map(state_abbrev)
-    print(df)
     fig = px.choropleth(df, locations="state", locationmode="USA-states", 
                         color="Renewable Percent", range_color=(0,100), 
                         color_continuous_scale="GnBu",
@@ -80,7 +82,9 @@ def show_re_map(df):
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    fig.show()
+    # fig.show()
+
+    return fig
 
 def main():
 
@@ -92,7 +96,7 @@ def main():
         appended_outage_data.append(data)
     appended_outage_data = pd.concat(appended_outage_data)
 
-    show_outage_map(appended_outage_data)
+    outage = show_outage_map(appended_outage_data)
     
     ## storms
     appended_storm_data = []
@@ -102,7 +106,7 @@ def main():
         appended_storm_data.append(data)
     appended_storm_data = pd.concat(appended_storm_data)
 
-    show_storm_map(appended_storm_data)
+    storm = show_storm_map(appended_storm_data)
 
     ## renewables
     appended_re_data = []
@@ -112,8 +116,13 @@ def main():
         appended_re_data.append(data)
     appended_re_data = pd.concat(appended_re_data)
     
-    show_re_map(appended_re_data)
+    re = show_re_map(appended_re_data)
 
+    with open('..output/maps.html', 'a') as f:
+        f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(re.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(storm.to_html(full_html=False, include_plotlyjs='cdn'))
+        
     # path = f"../data/Renewables/prod_btu_re_te.xlsx"
     # re_data = build_data_frame(path, year, 'Renewable Percent', get_renewable_production)
 
