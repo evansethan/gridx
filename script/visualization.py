@@ -118,7 +118,7 @@ def main():
     
     re = show_re_map(appended_re_data)
 
-    with open('..output/maps.html', 'a') as f:
+    with open('output/maps.html', 'a') as f:
         f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(re.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(storm.to_html(full_html=False, include_plotlyjs='cdn'))
