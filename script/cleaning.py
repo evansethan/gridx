@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from info import state_pops_23
 import re
 import csv
+from pathlib import Path
 
 def build_re_dict(path, year):
 
