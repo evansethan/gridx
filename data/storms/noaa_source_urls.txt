@@ -1,5 +1,7 @@
-original csv files downloaded from: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/
+link to index (not direct link to file): https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/
 
+
+Direct links to files:
 
 2014: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2014_c20231116.csv.gz
 2015: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2015_c20240716.csv.gz
