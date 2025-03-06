@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from info import state_pops_23
 import re
 import csv
+from pathlib import Path
 
 def build_re_dict(path, year):
 
@@ -161,6 +162,45 @@ def build_storms_dict(path):
 
     return state_damage # needs testing
 
+def build_pop_dict(path):
+    '''
+    Creates list of dictionaries where each dictionary represents a year between
+    2016 and 2022. The keys are states, and the values are population according
+    to Census data.
+    '''
+    #for census data 2016-2020
+    census_file1 = Path(__file__).parent / "data/state_pops/2010-2020.csv"
+    census_file2 = Path(__file__).parent / "data/state_pops/2020-2024.csv"
+    year_lst = [{}] *7
+    not_states = {'00', '10', '72'}
+
+    #a little wonky bc of orientation of csv
+    #written to avoid nested loop
+
+    with open(census_file1, 'r') as file:
+        reader = csv.DictReader(file)
+        
+        #years = (2016, 2017, 2018, 2019)
+        #pop_est = f'POPESTIMATE{year}'
+        for row in reader:
+            if row["STATE"] not in not_states:
+                state = row["NAME"]
+                year_lst[0][state] = row['POPESTIMATE2016']
+                year_lst[1][state] = row['POPESTIMATE2017']
+                year_lst[2][state] = row['POPESTIMATE2018']
+                year_lst[3][state] = row['POPESTIMATE2019']
+
+    with open(census_file2, 'r') as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            if row["STATE"] not in not_states:
+                state = row["NAME"]
+                year_lst[4][state] = row['POPESTIMATE2020']
+                year_lst[5][state] = row['POPESTIMATE2021']
+                year_lst[6][state] = row['POPESTIMATE2022']
+
+    return year_lst
 
 def main():
     path = "data/outages/2023_Annual_Summary.xls" # year < 2016 diff format need to handle
