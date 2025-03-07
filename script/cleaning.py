@@ -4,6 +4,7 @@ import re
 import csv
 from pathlib import Path
 
+
 def build_re_dict(path, year):
 
     """Produces a dictionary of dictionaries for 2016-2022
@@ -90,9 +91,13 @@ def build_outage_dict(path, year):
         states = lst.split(",")
         # if count == 0:
         #     continue
+
+        # this is handling multiple states in same row
         total = 0
         for state in states:
+            # calc total population over all states in row
             total += pop_dict_year[state.strip()]
+        
         for state in states:
             state = state.strip()
 
@@ -203,21 +208,21 @@ def build_pop_dict():
     return year_dict
 
 def main():
-    # path = "data/outages/2023_Annual_Summary.xls" # year < 2016 diff format need to handle
+    path = "data/outages/2022_Annual_Summary.xls"
     
-    # dic = build_outage_dict(path, 2023)
-    # print("")
-    # print("")
-    # print("Percent state residents affected by an outage (2023)")
-    # print("----------------------------------------------------")
-    # for x,y in dic.items():
-    #     print (x, ":", y, "%")
+    dic = build_outage_dict(path, 2022)
+    print("")
+    print("")
+    print("Percent state residents affected by an outage (2022)")
+    print("----------------------------------------------------")
+    for x,y in dic.items():
+        print (x, ":", y, "%")
 
 
-    i = 2020
-    path = f"data/Renewables/prod_btu_re_te.xlsx"
+    # i = 2020
+    # path = f"data/Renewables/prod_btu_re_te.xlsx"
     
-    print(build_re_dict(path, i))
+    # print(build_re_dict(path, i))
     
 
 
