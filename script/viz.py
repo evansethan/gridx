@@ -106,11 +106,6 @@ def main():
     #     f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))
     #     f.write(re.to_html(full_html=False, include_plotlyjs='cdn'))
     #     f.write(storm.to_html(full_html=False, include_plotlyjs='cdn'))
-        
-    # path = f"../data/Renewables/prod_btu_re_te.xlsx"
-    # re_data = build_data_frame(path, year, 'Renewable Percent', get_renewable_production)
-
-    # show_re_map(re_data)
 
 
 if __name__ == "__main__":

@@ -22,7 +22,6 @@ def build_pop_dict():
     2016 and 2022. The keys are states, and the values are population according
     to Census data.
     '''
-    #for census data 2016-2020
     census_file1 = Path(__file__).parent.parent / "data/state_pops/2010-2020.csv"
     census_file2 = Path(__file__).parent.parent / "data/state_pops/2020-2024.csv"
     year_dict = {2016: {},
