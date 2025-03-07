@@ -82,25 +82,25 @@ def main():
 
     show_outage_map(appended_outage_data)
     
-    # ## storms
-    # appended_storm_data = []
-    # for year in range(2016, 2023):
-    #     path = f"data/storms/storms_{year}.csv"
-    #     data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
-    #     appended_storm_data.append(data)
-    # appended_storm_data = pd.concat(appended_storm_data)
+    ## storms
+    appended_storm_data = []
+    for year in range(2016, 2023):
+        path = f"data/storms/storms_{year}.csv"
+        data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
+        appended_storm_data.append(data)
+    appended_storm_data = pd.concat(appended_storm_data)
 
-    # show_storm_map(appended_storm_data)
+    show_storm_map(appended_storm_data)
 
-    # ## renewables
-    # appended_re_data = []
-    # path = "data/Renewables/prod_btu_re_te.xlsx"
-    # for year in range(2016, 2023):
-    #     data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
-    #     appended_re_data.append(data)
-    # appended_re_data = pd.concat(appended_re_data)
+    ## renewables
+    appended_re_data = []
+    path = "data/Renewables/prod_btu_re_te.xlsx"
+    for year in range(2016, 2023):
+        data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
+        appended_re_data.append(data)
+    appended_re_data = pd.concat(appended_re_data)
     
-    # show_re_map(appended_re_data)
+    show_re_map(appended_re_data)
 
 
 
