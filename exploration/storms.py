@@ -1,5 +1,5 @@
 import csv
-from script.info import state_pops_23
+from script.utils import state_pops_23
 
 def import_storms(path):
     
