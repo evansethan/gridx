@@ -73,6 +73,7 @@ def clean_outages(path):
 
 def main():
 
+    # only runs on raw data
     for i in range(2014,2025):
         clean_storms(f"{i}.csv")
 

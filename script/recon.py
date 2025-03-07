@@ -29,7 +29,7 @@ def build_re_dict(path, year):
 def build_outage_dict(path, year):
 
     df = clean_outages(path)
-    state_pops = build_pop_dict()[year] # repetitive
+    state_pops = build_pop_dict()[year] # repetitive code, this could go in main somehow...?
 
     dic = {}
     for _, row in df.iterrows():

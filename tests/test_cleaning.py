@@ -1,16 +1,18 @@
-from script.scratch import cleaning, visualization #check this
+from script import clean, recon # import error here
 import pytest
 from pathlib import Path
 
-#check to make sure the population data is correct
+#the functions we're testing could be abstracted further to make testing easier
 
 def test_get_renewable_production():
     test_path = "data/Renewables/prod_btu_re_te.xlsx"
     assert test_path.exists(), "Your file path to renewables does not exist - please check your folder"
-    basic_dict = visualization.get_renewable_production()
-    assert len(basic_dict) == 8, "Expected seven years in the dictionary"
-    assert basic_dict[2017]["AK"] == 0.009181129924485621, "Incorrect renewable calculation"
+    basic_dict = recon.build_re_dict(test_path, 2017)
+    #assert len(basic_dict) == 8, "Expected seven years in the dictionary"
+    assert basic_dict["AK"] == 0.009181129924485621, "Incorrect renewable calculation"
     
+# edited this one a bit ^^^ rest still need updating
+
 def test_clean_outages():
     test_path = "data/outages/2016_Annual_Summary.xls"
     assert test_path.exists(), "Your file path to clean outages does not exist - please check your folder"
@@ -18,15 +20,29 @@ def test_clean_outages():
     assert "LUMA Energy" not in output #need to test by row?
     assert "Pacific Gas" not in output
 
+
 def test_build_outage_dict():
     test_path = "data/outages/2016_Annual_Summary.xls"
     test_dict = cleaning.build_outage_dict(test_path)
     assert len(test_dict) == 50, "Your function does not have all 50 states"
     assert test_dict["Missouri"] == "insert here", "Check your data values"
 
+
+def test_build_outage_dict_populations():
+    """ Tests to ensure the correct population data is used for outages"""
+    # TODO
+    pass
+
+
 def test_build_storms_dict():
     test_path = "data/storms/storms_2020.csv"
     assert test_path.exists(), "Your file path to storm data does not exist, please check your folder"
+
+
+def test_build_storms_dict_populations():
+    """ Tests to ensure the correct population data is used for storms"""
+    # TODO
+    pass
 
 def test_build_pop_dict():
     cleaning_path = "insert"
