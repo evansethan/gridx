@@ -103,10 +103,8 @@ def build_outage_dict(path):
         #     continue
         total = 0
         for state in states:
-            total += state_pops_23[state.strip()] 
-        for state in states: #could probably just cut this, move the assignment of state up, and then replaced in the total calcuations -Ganon
             state = state.strip()
-
+            total += state_pops_23[state] 
             percent_affected = count*(state_pops_23[state]/total) # control for differing state pops
 
             if state not in dic2:
@@ -154,7 +152,7 @@ def build_storms_dict(path):
 
     return state_damage # needs testing
 
-def build_pop_dict(path):
+def build_pop_dict():
     '''
     Creates list of dictionaries where each dictionary represents a year between
     2016 and 2022. The keys are states, and the values are population according

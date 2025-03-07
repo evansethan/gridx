@@ -2,7 +2,8 @@ from script.scratch import cleaning, visualization #check this
 import pytest
 from pathlib import Path
 
-#check to make sure the population data is correct
+#need to add a command to read_me to run the tests
+#create dummy data for tests
 
 def test_get_renewable_production():
     test_path = "data/Renewables/prod_btu_re_te.xlsx"
