@@ -1,8 +1,7 @@
 import pandas as pd
 import plotly.express as px
-from pathlib import Path
-from info import state_abbrev
-from cleaning import build_outage_dict, build_storms_dict, build_re_dict
+from utils import state_abbrev
+from recon import build_outage_dict, build_storms_dict, build_re_dict
 
 
 def build_data_frame(path, year, column, build_function):
@@ -94,16 +93,13 @@ def main():
 
     ## renewables
     appended_re_data = []
-    path = "data/Renewables/prod_btu_re_te.xlsx"
+    path = "data/renewables/prod_btu_re_te.xlsx"
     for year in range(2016, 2023):
         data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
         appended_re_data.append(data)
     appended_re_data = pd.concat(appended_re_data)
     
     show_re_map(appended_re_data)
-
-
-
 
 
     # with open('output/maps.html', 'a') as f:
