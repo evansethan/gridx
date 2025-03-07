@@ -105,8 +105,13 @@ def build_outage_dict(path, year):
         #     continue
         total = 0
         for state in states:
+<<<<<<< HEAD
             total += pop_dict_year[state.strip()]
         for state in states:
+=======
+            total += state_pops_23[state.strip()] 
+        for state in states: #could probably just cut this, move the assignment of state up, and then replaced in the total calcuations -Ganon
+>>>>>>> f86b18925602e83f931ad7ac8510f987b4040665
             state = state.strip()
 
             percent_affected = count*(pop_dict_year[state]/total) # control for differing state pops
@@ -119,7 +124,11 @@ def build_outage_dict(path, year):
             if dic2[state] > pop_dict_year[state]: # this could be cleaner
                 dic2[state] = pop_dict_year[state] # account for sum of total affected customers > state pop
 
+<<<<<<< HEAD
     return {x: round((y/pop_dict_year[x])*100, 2) for x,y in dic2.items()}
+=======
+    return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic2.items()} #Might be nice to comment what this is returning here -G
+>>>>>>> f86b18925602e83f931ad7ac8510f987b4040665
 
 
 
