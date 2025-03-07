@@ -10,6 +10,9 @@ def build_data_frame(path, year, column, build_function):
     if build_function == build_re_dict: 
         dic_all = build_function(path, year)
         dic = dic_all[year]
+    if build_function == build_storms_dict: 
+        dic_all = build_function(path, year)
+        dic = dic_all[year]
     else:
         dic = build_function(path) # calculate overall outage severity for the year to include in map
     df = pd.DataFrame(list(dic.items()), columns=['state', column])
@@ -88,19 +91,19 @@ def show_re_map(df):
 
 def main():
 
-    ## outages
-    appended_outage_data = []
-    for year in range(2016, 2023):
-        path = f"data/outages/{year}_Annual_Summary.xls"
-        data = build_data_frame(path, year, 'outage severity', build_outage_dict)
-        appended_outage_data.append(data)
-    appended_outage_data = pd.concat(appended_outage_data)
+    # ## outages
+    # appended_outage_data = []
+    # for year in range(2016, 2023):
+    #     path = f"data/outages/{year}_Annual_Summary.xls"
+    #     data = build_data_frame(path, year, 'outage severity', build_outage_dict)
+    #     appended_outage_data.append(data)
+    # appended_outage_data = pd.concat(appended_outage_data)
 
-    show_outage_map(appended_outage_data)
+    # show_outage_map(appended_outage_data)
     
     ## storms
     appended_storm_data = []
-    for year in range(2014, 2025):
+    for year in range(2016, 2023):
         path = f"data/storms/storms_{year}.csv"
         data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
         appended_storm_data.append(data)
@@ -108,15 +111,15 @@ def main():
 
     show_storm_map(appended_storm_data)
 
-    ## renewables
-    appended_re_data = []
-    path = "data/Renewables/prod_btu_re_te.xlsx"
-    for year in range(1980, 2023):
-        data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
-        appended_re_data.append(data)
-    appended_re_data = pd.concat(appended_re_data)
+    # ## renewables
+    # appended_re_data = []
+    # path = "data/Renewables/prod_btu_re_te.xlsx"
+    # for year in range(1980, 2023):
+    #     data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
+    #     appended_re_data.append(data)
+    # appended_re_data = pd.concat(appended_re_data)
     
-    show_re_map(appended_re_data)
+    # show_re_map(appended_re_data)
 
     # with open('output/maps.html', 'a') as f:
     #     f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))

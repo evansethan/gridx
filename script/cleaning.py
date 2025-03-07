@@ -1,7 +1,7 @@
 import pandas as pd 
 import numpy as np
 from datetime import datetime, timedelta
-from info import state_pops_23
+from info import state_abbrev
 import re
 import csv
 from pathlib import Path
@@ -48,7 +48,7 @@ def clean_outages(path):
         #row["Area Affected"] = "".join(re.findall(r"\b\w+:", row["Area Affected"])) # maybe this?
         row["Area Affected"] = re.sub(r":.*", "", row["Area Affected"]) # still some missing states maybe...
 
-        if row["Area Affected"] not in state_pops_23.keys():
+        if row["Area Affected"] not in state_abbrev.keys():
             if row["Area Affected"] == "LUMA Energy":
                 row["Area Affected"] = "Puerto Rico"
             elif row["Area Affected"] == "ISO New England":
@@ -79,9 +79,10 @@ def clean_outages(path):
     return df
 
 
-def build_outage_dict(path):
+def build_outage_dict(path, year):
 
     df = clean_outages(path)
+    pop_dict_year = build_pop_dict()[year] # repetitive
 
     dic = {}
     for _, row in df.iterrows():
@@ -104,26 +105,28 @@ def build_outage_dict(path):
         #     continue
         total = 0
         for state in states:
-            total += state_pops_23[state.strip()]
+            total += pop_dict_year[state.strip()]
         for state in states:
             state = state.strip()
 
-            percent_affected = count*(state_pops_23[state]/total) # control for differing state pops
+            percent_affected = count*(pop_dict_year[state]/total) # control for differing state pops
 
             if state not in dic2:
                 dic2[state] = percent_affected
             else:
                 dic2[state] += percent_affected
 
-            if dic2[state] > state_pops_23[state]: # this could be cleaner
-                dic2[state] = state_pops_23[state] # account for sum of total affected customers > state pop
+            if dic2[state] > pop_dict_year[state]: # this could be cleaner
+                dic2[state] = pop_dict_year[state] # account for sum of total affected customers > state pop
 
-    return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic2.items()}
+    return {x: round((y/pop_dict_year[x])*100, 2) for x,y in dic2.items()}
 
 
 
-def build_storms_dict(path):
+def build_storms_dict(path, year):
     
+    pop_dict = build_pop_dict()
+
     dic = {}
     with open(path, "r") as f:
         
@@ -157,23 +160,31 @@ def build_storms_dict(path):
     for state, cost in dic.items():
         # state = ' '.join(word.capitalize() for word in text.split())
         
-        if state in state_pops_23:
-            state_damage[state] = round(cost/state_pops_23[state], 2)
+        if state in pop_dict:
+            state_damage[state] = round(cost/pop_dict[year][state], 2)
 
 
     return state_damage # needs testing
 
-def build_pop_dict(path):
+def build_pop_dict():
     '''
     Creates list of dictionaries where each dictionary represents a year between
     2016 and 2022. The keys are states, and the values are population according
     to Census data.
     '''
     #for census data 2016-2020
-    census_file1 = Path(__file__).parent / "data/state_pops/2010-2020.csv"
-    census_file2 = Path(__file__).parent / "data/state_pops/2020-2024.csv"
-    year_lst = [{}] *7
-    not_states = {'00', '10', '72'}
+    census_file1 = Path(__file__).parent.parent / "data/state_pops/2010-2020.csv"
+    census_file2 = Path(__file__).parent.parent / "data/state_pops/2020-2024.csv"
+    year_dict = {2016: {},
+                 2017: {},
+                 2018: {},
+                 2019: {},
+                 2020: {},
+                 2021: {},
+                 2022: {},
+                 2023: {},
+                 }
+    not_states = {'00', '10'} # 72?
 
     #a little wonky bc of orientation of csv
     #written to avoid nested loop
@@ -186,10 +197,10 @@ def build_pop_dict(path):
         for row in reader:
             if row["STATE"] not in not_states:
                 state = row["NAME"]
-                year_lst[0][state] = row['POPESTIMATE2016']
-                year_lst[1][state] = row['POPESTIMATE2017']
-                year_lst[2][state] = row['POPESTIMATE2018']
-                year_lst[3][state] = row['POPESTIMATE2019']
+                year_dict[2016][state] = int(row['POPESTIMATE2016'])
+                year_dict[2017][state] = int(row['POPESTIMATE2017'])
+                year_dict[2018][state] = int(row['POPESTIMATE2018'])
+                year_dict[2019][state] = int(row['POPESTIMATE2019'])
 
     with open(census_file2, 'r') as file:
         reader = csv.DictReader(file)
@@ -197,22 +208,27 @@ def build_pop_dict(path):
         for row in reader:
             if row["STATE"] not in not_states:
                 state = row["NAME"]
-                year_lst[4][state] = row['POPESTIMATE2020']
-                year_lst[5][state] = row['POPESTIMATE2021']
-                year_lst[6][state] = row['POPESTIMATE2022']
+                year_dict[2020][state] = int(row['POPESTIMATE2020'])
+                year_dict[2021][state] = int(row['POPESTIMATE2021'])
+                year_dict[2022][state] = int(row['POPESTIMATE2022'])
+                year_dict[2023][state] = int(row['POPESTIMATE2023'])
 
-    return year_lst
+    return year_dict
 
 def main():
-    path = "data/outages/2023_Annual_Summary.xls" # year < 2016 diff format need to handle
+    # path = "data/outages/2023_Annual_Summary.xls" # year < 2016 diff format need to handle
     
-    dic = build_outage_dict(path)
-    print("")
-    print("")
-    print("Percent state residents affected by an outage (2023)")
-    print("----------------------------------------------------")
-    for x,y in dic.items():
-        print (x, ":", y, "%")
+    # dic = build_outage_dict(path, 2023)
+    # print("")
+    # print("")
+    # print("Percent state residents affected by an outage (2023)")
+    # print("----------------------------------------------------")
+    # for x,y in dic.items():
+    #     print (x, ":", y, "%")
+
+
+    path = x
+    print(build_pop_dict()[2023])
     
 
 
