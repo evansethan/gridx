@@ -103,8 +103,8 @@ def build_outage_dict(path):
         #     continue
         total = 0
         for state in states:
-            total += state_pops_23[state.strip()]
-        for state in states:
+            total += state_pops_23[state.strip()] 
+        for state in states: #could probably just cut this, move the assignment of state up, and then replaced in the total calcuations -Ganon
             state = state.strip()
 
             percent_affected = count*(state_pops_23[state]/total) # control for differing state pops
@@ -117,7 +117,7 @@ def build_outage_dict(path):
             if dic2[state] > state_pops_23[state]: # this could be cleaner
                 dic2[state] = state_pops_23[state] # account for sum of total affected customers > state pop
 
-    return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic2.items()}
+    return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic2.items()} #Might be nice to comment what this is returning here -G
 
 
 
