@@ -5,6 +5,7 @@ from info import state_pops_23
 import re
 import csv
 from pathlib import Path
+import os
 
 def build_re_dict(path, year):
 
@@ -153,8 +154,8 @@ def build_storms_dict(path):
     # return dic
 
     state_damage = {}
-    for text, cost in dic.items():
-        state = ' '.join(word.capitalize() for word in text.split())
+    for state, cost in dic.items():
+        # state = ' '.join(word.capitalize() for word in text.split())
         
         if state in state_pops_23:
             state_damage[state] = round(cost/state_pops_23[state], 2)

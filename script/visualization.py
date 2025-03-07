@@ -88,25 +88,25 @@ def show_re_map(df):
 
 def main():
 
-    # ## outages
-    # appended_outage_data = []
-    # for year in range(2016, 2023):
-    #     path = f"data/outages/{year}_Annual_Summary.xls"
-    #     data = build_data_frame(path, year, 'outage severity', build_outage_dict)
-    #     appended_outage_data.append(data)
-    # appended_outage_data = pd.concat(appended_outage_data)
+    ## outages
+    appended_outage_data = []
+    for year in range(2016, 2023):
+        path = f"data/outages/{year}_Annual_Summary.xls"
+        data = build_data_frame(path, year, 'outage severity', build_outage_dict)
+        appended_outage_data.append(data)
+    appended_outage_data = pd.concat(appended_outage_data)
 
-    # show_outage_map(appended_outage_data)
+    show_outage_map(appended_outage_data)
     
-    # ## storms
-    # appended_storm_data = []
-    # for year in range(2014, 2025):
-    #     path = f"data/storms/storms_{year}.csv"
-    #     data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
-    #     appended_storm_data.append(data)
-    # appended_storm_data = pd.concat(appended_storm_data)
+    ## storms
+    appended_storm_data = []
+    for year in range(2014, 2025):
+        path = f"data/storms/storms_{year}.csv"
+        data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
+        appended_storm_data.append(data)
+    appended_storm_data = pd.concat(appended_storm_data)
 
-    # show_storm_map(appended_storm_data)
+    show_storm_map(appended_storm_data)
 
     ## renewables
     appended_re_data = []
