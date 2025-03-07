@@ -1,5 +1,5 @@
 import pandas as pd 
-from info import state_abbrev
+from info import state_abbrev, state_pops_23
 import re
 import csv
 from pathlib import Path
@@ -70,7 +70,7 @@ def clean_outages(path):
 def build_outage_dict(path, year):
 
     df = clean_outages(path)
-    pop_dict_year = build_pop_dict()[year] # repetitive
+    state_pops = build_pop_dict()[year] # repetitive
 
     dic = {}
     for _, row in df.iterrows():
@@ -89,29 +89,27 @@ def build_outage_dict(path, year):
     dic2 = {}
     for lst, count in dic.items():
         states = lst.split(",")
-        # if count == 0:
-        #     continue
 
         # this is handling multiple states in same row
         total = 0
         for state in states:
             # calc total population over all states in row
-            total += pop_dict_year[state.strip()]
+            total += state_pops[state.strip()]
         
         for state in states:
             state = state.strip()
 
-            percent_affected = count*(pop_dict_year[state]/total) # control for differing state pops
+            percent_affected = count*(state_pops[state]/total) # control for differing state pops
 
             if state not in dic2:
                 dic2[state] = percent_affected
             else:
                 dic2[state] += percent_affected
 
-            if dic2[state] > pop_dict_year[state]:
-                dic2[state] = pop_dict_year[state] # account for sum of total affected customers > state pop
+            if dic2[state] > state_pops[state]:
+                dic2[state] = state_pops[state] # account for sum of total affected customers > state pop
 
-    return {x: round((y/pop_dict_year[x])*100, 2) for x,y in dic2.items()}
+    return {x: round((y/state_pops[x])*100, 2) for x,y in dic2.items()}
 
 
 
@@ -174,9 +172,8 @@ def build_pop_dict():
                  2020: {},
                  2021: {},
                  2022: {},
-                # 2023: {},
                 }
-    not_states = {'00', '10'} # 72? get rid of magic numers and assign to variable names
+    not_states = {'00',} # 72? get rid of magic numers and assign to variable names
 
     #a little wonky bc of orientation of csv
     #written to avoid nested loop
@@ -203,20 +200,19 @@ def build_pop_dict():
                 year_dict[2020][state] = int(row['POPESTIMATE2020'])
                 year_dict[2021][state] = int(row['POPESTIMATE2021'])
                 year_dict[2022][state] = int(row['POPESTIMATE2022'])
-                #year_dict[2023][state] = int(row['POPESTIMATE2023'])
 
     return year_dict
 
 def main():
-    path = "data/outages/2022_Annual_Summary.xls"
+    # path = "data/outages/2022_Annual_Summary.xls"
     
-    dic = build_outage_dict(path, 2022)
-    print("")
-    print("")
-    print("Percent state residents affected by an outage (2022)")
-    print("----------------------------------------------------")
-    for x,y in dic.items():
-        print (x, ":", y, "%")
+    # dic = build_outage_dict(path, 2022)
+    # print("")
+    # print("")
+    # print("Percent state residents affected by an outage (2022)")
+    # print("----------------------------------------------------")
+    # for x,y in dic.items():
+    #     print (x, ":", y, "%")
 
 
     # i = 2020
@@ -224,7 +220,7 @@ def main():
     
     # print(build_re_dict(path, i))
     
-
+    print(build_pop_dict()[2017])
 
 if __name__ == "__main__":
     main()
