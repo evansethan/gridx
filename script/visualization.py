@@ -7,11 +7,7 @@ from cleaning import build_outage_dict, build_storms_dict, build_re_dict
 
 def build_data_frame(path, year, column, build_function):
 
-    if build_function == build_re_dict: 
-        dic_all = build_function(path, year)
-        dic = dic_all[year]
-    else:
-        dic = build_function(path) # calculate overall outage severity for the year to include in map
+    dic = build_function(path, year)
     df = pd.DataFrame(list(dic.items()), columns=['state', column])
     df['year'] = year
 
@@ -20,8 +16,6 @@ def build_data_frame(path, year, column, build_function):
 
 def show_outage_map(df):
 
-    # dic = data # calculate overall outage severity for the year to include in map
-    # df = pd.DataFrame(list(dic.items()), columns=['state', 'outage severity', 'year'])
     df['abbrev'] = df['state'].map(state_abbrev)
     fig = px.choropleth(df, locations="abbrev", locationmode="USA-states", 
                         color="outage severity", range_color=(0, 10), scope="usa", 
@@ -31,36 +25,29 @@ def show_outage_map(df):
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Percent')
     fig.update_layout(title_text='Outage Severity by U.S. State, 2016-2022<br>(As a Percent of State Population Who Experienced an Outage)', title_x=0.5)
-    # fig.update_layout(title_text="(As a Percent of Total Electricity Generation)", title_x=0.5)
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    
     fig.show()
 
     #return fig
 
 
 def show_storm_map(df):
-
-    # dic = build_storms_dict(path) 
-    # df = pd.DataFrame(list(dic.items()), columns=['state', 'cost per resident'])
     
     df['abbrev'] = df['state'].map(state_abbrev)
     fig = px.choropleth(df, locations="abbrev", locationmode="USA-states", 
-                        color="cost per resident", range_color=(0, 50), 
+                        color="cost per resident", range_color=(0, 150), 
                         color_continuous_scale="OrRd",
                         scope="usa", 
                         title="Cost of Storms by U.S. State, 2016-2022",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Dollar')
-    fig.update_layout(title_text='Cost of Storms by U.S. State, 2016-2022<br>(Damage to Property or Crop Per State Resident)', title_x=0.5)
-    # fig.update_layout(title_text="(As a Percent of Total Electricity Generation)", title_x=0.5)
+    fig.update_layout(title_text='Cost of Storms by U.S. State, 2016-2022<br>(Property/Crop Damage (USD) Per State Resident)', title_x=0.5)
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    
     fig.show()
 
     #return fig
@@ -68,23 +55,17 @@ def show_storm_map(df):
 
 def show_re_map(df):
 
-    # dic = build_storms_dict(path) 
-    # df = pd.DataFrame(list(dic.items()), columns=['state', 'cost per resident'])
-    
-    # df['abbrev'] = df['state'].map(state_abbrev)
     fig = px.choropleth(df, locations="state", locationmode="USA-states", 
-                        color="Renewable Percent", range_color=(0,100), 
+                        color="Renewable Percent", range_color=(0,25), 
                         color_continuous_scale="GnBu",
                         scope="usa", 
                         animation_frame="year")
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Percent')
     fig.update_layout(title_text='Renewable Generation by U.S. State, 2016-2022<br>(As a Percent of Total Electricity Generation)', title_x=0.5)
-    # fig.update_layout(title_text="(As a Percent of Total Electricity Generation)", title_x=0.5)
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    
     fig.show()
 
     #return fig
@@ -121,6 +102,10 @@ def main():
     
     show_re_map(appended_re_data)
 
+
+
+
+
     # with open('output/maps.html', 'a') as f:
     #     f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))
     #     f.write(re.to_html(full_html=False, include_plotlyjs='cdn'))
@@ -131,13 +116,6 @@ def main():
 
     # show_re_map(re_data)
 
-
-
-
-
-
-
-    
 
 if __name__ == "__main__":
     main()
