@@ -7,11 +7,7 @@ from cleaning import build_outage_dict, build_storms_dict, build_re_dict
 
 def build_data_frame(path, year, column, build_function):
 
-    if build_function == build_re_dict: 
-        dic_all = build_function(path, year)
-        dic = dic_all[year]
-    else:
-        dic = build_function(path, year) # calculate overall outage severity for the year to include in map
+    dic = build_function(path, year)
     df = pd.DataFrame(list(dic.items()), columns=['state', column])
     df['year'] = year
 
@@ -26,7 +22,7 @@ def show_outage_map(df):
     fig = px.choropleth(df, locations="abbrev", locationmode="USA-states", 
                         color="outage severity", range_color=(0, 10), scope="usa", 
                         color_continuous_scale="Purples",
-                        title="Outage Severity by U.S. State, 2002-2023",
+                        title="Outage Severity by U.S. State, 2016-2022",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Percent')
