@@ -1,11 +1,8 @@
 import pandas as pd 
-import numpy as np
-from datetime import datetime, timedelta
 from info import state_abbrev
 import re
 import csv
 from pathlib import Path
-import os
 
 def build_re_dict(path, year):
 
@@ -105,13 +102,8 @@ def build_outage_dict(path, year):
         #     continue
         total = 0
         for state in states:
-<<<<<<< HEAD
             total += pop_dict_year[state.strip()]
         for state in states:
-=======
-            total += state_pops_23[state.strip()] 
-        for state in states: #could probably just cut this, move the assignment of state up, and then replaced in the total calcuations -Ganon
->>>>>>> f86b18925602e83f931ad7ac8510f987b4040665
             state = state.strip()
 
             percent_affected = count*(pop_dict_year[state]/total) # control for differing state pops
@@ -121,14 +113,10 @@ def build_outage_dict(path, year):
             else:
                 dic2[state] += percent_affected
 
-            if dic2[state] > pop_dict_year[state]: # this could be cleaner
+            if dic2[state] > pop_dict_year[state]:
                 dic2[state] = pop_dict_year[state] # account for sum of total affected customers > state pop
 
-<<<<<<< HEAD
     return {x: round((y/pop_dict_year[x])*100, 2) for x,y in dic2.items()}
-=======
-    return {x: round((y/state_pops_23[x])*100, 2) for x,y in dic2.items()} #Might be nice to comment what this is returning here -G
->>>>>>> f86b18925602e83f931ad7ac8510f987b4040665
 
 
 
@@ -158,18 +146,18 @@ def build_storms_dict(path, year):
             if "B" in row["crop_damage"]:
                 damage += float(row["crop_damage"][:-1]) * 1000000000
 
-            if row["state"].lower() not in dic:
-                dic[row["state"].lower()] = damage
+            if row["state"] not in dic:
+                dic[row["state"]] = damage
             else:
-                dic[row["state"].lower()] += damage
+                dic[row["state"]] += damage
 
-    # return dic
+    #return dic
 
     state_damage = {}
     for state, cost in dic.items():
         # state = ' '.join(word.capitalize() for word in text.split())
         
-        if state in pop_dict:
+        if state in pop_dict[year]:
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 
 
@@ -236,8 +224,10 @@ def main():
     #     print (x, ":", y, "%")
 
 
-    path = x
-    print(build_pop_dict()[2023])
+    i = 2020
+    path = f"data/storms/storms_{i}.csv"
+    
+    print(build_storms_dict(path, i))
     
 
 
