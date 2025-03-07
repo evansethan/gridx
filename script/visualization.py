@@ -10,11 +10,8 @@ def build_data_frame(path, year, column, build_function):
     if build_function == build_re_dict: 
         dic_all = build_function(path, year)
         dic = dic_all[year]
-    if build_function == build_storms_dict: 
-        dic_all = build_function(path, year)
-        dic = dic_all[year]
     else:
-        dic = build_function(path) # calculate overall outage severity for the year to include in map
+        dic = build_function(path, year) # calculate overall outage severity for the year to include in map
     df = pd.DataFrame(list(dic.items()), columns=['state', column])
     df['year'] = year
 
@@ -53,11 +50,11 @@ def show_storm_map(df):
                         color="cost per resident", range_color=(0, 150), 
                         color_continuous_scale="OrRd",
                         scope="usa", 
-                        title="Cost of Storms by U.S. State, 2014-2024",
+                        title="Cost of Storms by U.S. State, 2016-2022",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Dollar')
-    fig.update_layout(title_text='Cost of Storms by U.S. State, 2016-2022<br>(Damage to Property or Crop Per State Resident)', title_x=0.5)
+    fig.update_layout(title_text='Cost of Storms by U.S. State, 2016-2022<br>(Property/Crop Damage (USD) Per State Resident)', title_x=0.5)
     # fig.update_layout(title_text="(As a Percent of Total Electricity Generation)", title_x=0.5)
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
@@ -80,7 +77,7 @@ def show_re_map(df):
                         animation_frame="year")
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Percent')
-    fig.update_layout(title_text='Renewable Generation by U.S. State, 1980-2022<br>(As a Percent of Total Electricity Generation)', title_x=0.5)
+    fig.update_layout(title_text='Renewable Generation by U.S. State, 2016-2022<br>(As a Percent of Total Electricity Generation)', title_x=0.5)
     # fig.update_layout(title_text="(As a Percent of Total Electricity Generation)", title_x=0.5)
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
@@ -111,15 +108,15 @@ def main():
 
     show_storm_map(appended_storm_data)
 
-    # ## renewables
-    # appended_re_data = []
-    # path = "data/Renewables/prod_btu_re_te.xlsx"
-    # for year in range(1980, 2023):
-    #     data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
-    #     appended_re_data.append(data)
-    # appended_re_data = pd.concat(appended_re_data)
+    ## renewables
+    appended_re_data = []
+    path = "data/Renewables/prod_btu_re_te.xlsx"
+    for year in range(2016, 2023):
+        data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
+        appended_re_data.append(data)
+    appended_re_data = pd.concat(appended_re_data)
     
-    # show_re_map(appended_re_data)
+    show_re_map(appended_re_data)
 
     # with open('output/maps.html', 'a') as f:
     #     f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))

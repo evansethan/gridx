@@ -8,7 +8,7 @@ def build_re_dict(path, year):
 
     """Produces a dictionary of dictionaries for 2016-2022
     mapping each year to the 50 states's renewable energy % of production."""
-    start_year = 1980
+    start_year = 2016
     end_year = 2022
     years_to_analyze = list(range(start_year, end_year + 1))
     renewable_path = path #for proofing
@@ -179,9 +179,9 @@ def build_pop_dict():
                  2020: {},
                  2021: {},
                  2022: {},
-                 2023: {},
-                 }
-    not_states = {'00', '10'} # 72?
+                # 2023: {},
+                }
+    not_states = {'00', '10'} # 72? get rid of magic numers and assign to variable names
 
     #a little wonky bc of orientation of csv
     #written to avoid nested loop
@@ -208,7 +208,7 @@ def build_pop_dict():
                 year_dict[2020][state] = int(row['POPESTIMATE2020'])
                 year_dict[2021][state] = int(row['POPESTIMATE2021'])
                 year_dict[2022][state] = int(row['POPESTIMATE2022'])
-                year_dict[2023][state] = int(row['POPESTIMATE2023'])
+                #year_dict[2023][state] = int(row['POPESTIMATE2023'])
 
     return year_dict
 
