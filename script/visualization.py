@@ -26,7 +26,7 @@ def show_outage_map(df):
     fig = px.choropleth(df, locations="abbrev", locationmode="USA-states", 
                         color="outage severity", range_color=(0, 10), scope="usa", 
                         color_continuous_scale="Purples",
-                        title="Outage Severity by U.S. State, 2002-2023",
+                        title="Outage Severity by U.S. State, 2016-2022",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Percent')
@@ -35,9 +35,10 @@ def show_outage_map(df):
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    # fig.show()
+    
+    fig.show()
 
-    return fig
+    #return fig
 
 
 def show_storm_map(df):
@@ -50,7 +51,7 @@ def show_storm_map(df):
                         color="cost per resident", range_color=(0, 50), 
                         color_continuous_scale="OrRd",
                         scope="usa", 
-                        title="Cost of Storms by U.S. State, 2014-2024",
+                        title="Cost of Storms by U.S. State, 2016-2022",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0, marker_opacity=0.8)
     fig.update_layout(legend_title_text='Dollar')
@@ -59,9 +60,10 @@ def show_storm_map(df):
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    # fig.show()
+    
+    fig.show()
 
-    return fig
+    #return fig
 
 
 def show_re_map(df):
@@ -82,9 +84,10 @@ def show_re_map(df):
     fig.update_geos(
     showsubunits=True, subunitcolor="black"
     )
-    # fig.show()
+    
+    fig.show()
 
-    return fig
+    #return fig
 
 def main():
 
@@ -96,7 +99,7 @@ def main():
         appended_outage_data.append(data)
     appended_outage_data = pd.concat(appended_outage_data)
 
-    outage = show_outage_map(appended_outage_data)
+    show_outage_map(appended_outage_data)
     
     ## storms
     appended_storm_data = []
@@ -106,7 +109,7 @@ def main():
         appended_storm_data.append(data)
     appended_storm_data = pd.concat(appended_storm_data)
 
-    storm = show_storm_map(appended_storm_data)
+    show_storm_map(appended_storm_data)
 
     ## renewables
     appended_re_data = []
@@ -116,12 +119,12 @@ def main():
         appended_re_data.append(data)
     appended_re_data = pd.concat(appended_re_data)
     
-    re = show_re_map(appended_re_data)
+    show_re_map(appended_re_data)
 
-    with open('output/maps.html', 'a') as f:
-        f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))
-        f.write(re.to_html(full_html=False, include_plotlyjs='cdn'))
-        f.write(storm.to_html(full_html=False, include_plotlyjs='cdn'))
+    # with open('output/maps.html', 'a') as f:
+    #     f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))
+    #     f.write(re.to_html(full_html=False, include_plotlyjs='cdn'))
+    #     f.write(storm.to_html(full_html=False, include_plotlyjs='cdn'))
         
     # path = f"../data/Renewables/prod_btu_re_te.xlsx"
     # re_data = build_data_frame(path, year, 'Renewable Percent', get_renewable_production)
