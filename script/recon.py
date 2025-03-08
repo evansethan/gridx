@@ -110,4 +110,10 @@ def build_storms_dict(path, year):
 
     return state_damage
 
+def main(): #delete this when done
+    x = build_outage_dict("data/outages/2016_Annual_Summary.xls", 2016)
+    print(x)
+
+if __name__ == "__main__":
+    main()
 
