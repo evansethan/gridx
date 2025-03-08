@@ -101,7 +101,6 @@ def build_storms_dict(path, year):
                 dic[row["state"]] = damage
             else:
                 dic[row["state"]] += damage
-
     state_damage = {}
     for state, cost in dic.items():
         
@@ -109,11 +108,3 @@ def build_storms_dict(path, year):
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 
     return state_damage
-
-def main(): #delete this when done
-    x = build_outage_dict("data/outages/2016_Annual_Summary.xls", 2016)
-    print(x)
-
-if __name__ == "__main__":
-    main()
-

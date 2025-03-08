@@ -18,13 +18,20 @@ def test_build_re_dict():
 def test_build_outage_dict():
     actual_path = "data/outages/2016_Annual_Summary.xls"
     assert actual_path.exists(), "Your actual path to outages does not exist - please check your folder"
-    test_dict = recon.build_outage_dict(actual_path)
+    test_dict = recon.build_outage_dict(actual_path, 2016)
     assert len(test_dict) == 40, "Your function is off from the 40 states in the present data"
     assert "Alaska" not in test_dict, "Your function contains a state that shouldn't be there, check your data"
     assert test_dict["Missouri"] == 0.0, "Check your data values"
+    assert test_dict["Nevada"] == round((111671/2919555)*100, 2), "Your calculation is wrong, check again"
+
 
 def test_build_storms_dict():
     test_path = "data/storms/storms_2020.csv"
     assert test_path.exists(), "Your file path to storm data does not exist, please check your folder"
+    test_storms = recon.build_storm_dict(test_path, 2020)
+    assert len(test_storms) == 50, "Check that you have all 50 states"
+    assert "Hawaii" in test_storms, "Check that your data has all states"
+    assert test_storms["Pennsylvania"] == round((13158200/12996143)*100, 2), "Your calculation is wrong, check again"
+
 
 
