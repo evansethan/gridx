@@ -45,24 +45,26 @@ def clean_outages(path):
     df = df.drop(index=0)
 
     for _, row in df.iterrows():
-        #row["Area Affected"] = "".join(re.findall(r"\b\w+:", row["Area Affected"])) # maybe this?
-        row["Area Affected"] = re.sub(r":.*", "", row["Area Affected"]) # still some missing states maybe...
 
+        # split text by ':' or ';' and strip spaces
+        parts = [part.strip() for part in re.split(r'[:;]', row["Area Affected"])]
+        row["Area Affected"] = ",".join(parts).rstrip(",")
+    
         if row["Area Affected"] not in state_abbrev.keys():
             if row["Area Affected"] == "LUMA Energy":
                 row["Area Affected"] = "Puerto Rico"
             if row["Area Affected"] == "ISO New England":
-                row["Area Affected"] = "Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont"
+                row["Area Affected"] = "Connecticut,Maine,Massachusetts,New Hampshire,Rhode Island,Vermont"
             if row["Area Affected"] == "Otter Tail Power Co":
-                row["Area Affected"] = "Minnesota, North Dakota, South Dakota"
+                row["Area Affected"] = "Minnesota,North Dakota,South Dakota"
             if "Western Area Power" in row["Area Affected"]:
-                row["Area Affected"] = "Montana, North Dakota, South Dakota, Nebraska, Iowa, Minnesota"
+                row["Area Affected"] = "Montana,North Dakota,South Dakota,Nebraska,Iowa,Minnesota"
             if row["Area Affected"] == 'Northern and Central California;' or 'Pacific Gas' in row["Area Affected"]:
                 row["Area Affected"] = "California"
             if row["Area Affected"] == 'Central Oklahoma':
                 row["Area Affected"] = "Oklahoma"
             if row["Area Affected"] == 'Pacificorp':  
-                row["Area Affected"] = "Oregon, California, Washington, Oregon, Utah, Wyoming, Idaho"
+                row["Area Affected"] = "Oregon,California,Washington,Oregon,Utah,Wyoming,Idaho"
             if row["Area Affected"] == 'Tampa Electric Company' or row["Area Affected"] == 'Seminole Electric Cooperative Inc':  
                 row["Area Affected"] = "Florida"
             if row["Area Affected"] == 'Tucson Electric Power':
@@ -72,9 +74,15 @@ def clean_outages(path):
 
 
 def main():
-    # only runs on raw data
-    for i in range(2014,2025):
-        clean_storms(f"{i}.csv")
+
+
+    for i in range(2016,2023):
+        path = f"data/outages/{i}_Annual_Summary.xls"
+        print(clean_outages(path))
+
+    # # only runs on raw data
+    # for i in range(2014,2025):
+    #     clean_storms(f"{i}.csv")
 
 if __name__ == "__main__":
     main()
