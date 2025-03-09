@@ -7,9 +7,10 @@ from pathlib import Path
 
 
 def build_re_dict(path, year):
-
-    """Produces a dictionary of dictionaries for 2016-2022
-    mapping each year to the 50 states's renewable energy % of production."""
+    """
+    Produces a dictionary mapping each state to its renewable production
+    percentage for a given year
+    """
     final_dict = {} 
     re_df = pd.read_excel(path, "Other renewables", header=2)
     tot_df = pd.read_excel(path, "Total primary energy", header=2)
@@ -33,21 +34,24 @@ def build_re_dict(path, year):
 def build_outage_dict(path, year):
 
     df = clean_outages(path)
-    state_pops = build_pop_dict()[year] # repetitive code, this could go in main somehow...?
+    state_pops = build_pop_dict()[year]
 
     dic = {}
     for _, row in df.iterrows():
 
+        # skip rows with "Unknown" Number of Customers Affected
         try:
             num_affected = int(row["Number of Customers Affected"])
         except ValueError:
             continue
 
+        # sum each state's overall affected customers for a given year
         state = row["Area Affected"]
         if row["Area Affected"] not in dic:
             dic[state] = num_affected
         else:
             dic[state] += num_affected
+
 
     dic2 = {}
     for lst, count in dic.items():
@@ -56,21 +60,23 @@ def build_outage_dict(path, year):
         # this is handling multiple states in same row
         total = 0
         for state in states:
-            # calc total population over all states in row
-            total += state_pops[state.strip()]
+            # calc total population over all states in row (ignore non-states)
+            if state in state_pops.keys():
+                total += state_pops[state]
         
         for state in states:
             state = state.strip()
 
-            percent_affected = count*(state_pops[state]/total) # control for differing state pops
+            if state in state_pops.keys():
+                percent_affected = count*(state_pops[state]/total) # control for differing state pops - change this to affected customers
 
-            if state not in dic2:
-                dic2[state] = percent_affected
-            else:
-                dic2[state] += percent_affected
+                if state not in dic2:
+                    dic2[state] = percent_affected
+                else:
+                    dic2[state] += percent_affected
 
-            if dic2[state] > state_pops[state]:
-                dic2[state] = state_pops[state] # account for sum of total affected customers > state pop
+                if dic2[state] > state_pops[state]:
+                    dic2[state] = state_pops[state] # account for sum of total affected customers > state pop
 
     return {x: round((y/state_pops[x])*100, 2) for x,y in dic2.items()}
 
@@ -112,3 +118,14 @@ def build_storms_dict(path, year):
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 
     return state_damage
+
+
+def main():
+    
+    for i in range(2016,2023):
+        path = f"data/outages/{i}_Annual_Summary.xls"
+        print(build_outage_dict(path, i))
+
+
+if __name__ == "__main__":
+    main()
