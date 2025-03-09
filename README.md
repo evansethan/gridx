@@ -11,39 +11,36 @@ Overview:
 
 This project aims to examine power outages and its association with energy generation sources in the United States. By analyzing the frequency and severity of power outages, we aim to explore patterns in grid reliability and generation mix across different regions and time periods. 
 
-To visualize the results, we will create an interactive map (e.g., heat map)
-that visualizes the changes in power outages and shifts in electricity generation
-sources over time. We will aggregate data by state to account for their outage
-history and their energy production and consumption. We also want to integrate
-a visual aid indicating each state’s change in its energy profile and its change
-in severity of outages. These tools will allow users to easily examine regional
-differences in renewable energy adoption and grid reliability in the U.S.
-
+To visualize the results, we have created three interactive maps (e.g., heat map)
+that visualize the changes in power outages and storm damage as well as the 
+shifts in electricity generation sources over time. We have aggregated data by 
+state to account for their outage history and their energy production and consumption. 
+These tools will allow users to easily examine regional differences in renewable energy 
+adoption and grid reliability in the U.S.
 
 Data Sources (in "data" folder)
-
-NERC Regions (data/nerc_regions)
-Link: https://atlas.eia.gov/datasets/eia::nerc-regions/explore
-Energy Information Administration
-Shapefiles representing the different areas of the North American Electric Reliability Corporation (NERC), which are largely power systems split across the US and Canada.
 
 OE-417 (data/outages)
 Link: https://doe417.pnnl.gov/instructions
 Department of Energy
 Outage data (duration, number of customers affected) by U.S. region (NERC region for our purposes)
 
-EIA-860M (data/renewables)
-Link: https://www.eia.gov/electricity/data/eia860m/v
-Energy Information Administration
-July Generator 2023 is a csv of monthly generator inventory collected in a monthly survey from power plants’ Form EIA-860M. The data is broken down into rows of each generator at a facility with its technology type and megawatt capacity. This data can be aggregated to represent the total capacity of a plant, which itself can be broken down into total capacity by technology. 
+State Energy Data System (renewables)
+Link: https://www.eia.gov/state/seds/seds-data-complete.php
+U.S. Energy Information Administration
+Total energy production with renewables broken out by state
 
-(Note: In the final project, we will have December Generator 2023 or other csvs for different years to get a better representation of capacity over time while accounting for changes in energy usage and technology.)
+U.S. Census State Population Data
+Link: 2010-2020: https://www.census.gov/programs-surveys/popest/technical-
+documentation/research/evaluation-estimates/2020-evaluation-estimates/2010s-state-total.html
+2020-2024: https://www.census.gov/data/tables/time-series/demo/popest/2020s-state-total.html
+U.S. Census Bureau
+Population by state over each decade.
 
-
-Bulk Renewables data: https://www.eia.gov/state/seds/seds-data-complete.php
-
-
-We also included data/FEMA, which has weather-related data and shapefiles per census tract. This data is less likely to be included in the final project.
+Storm Bulk Data
+Link: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/
+NOAA
+Information on dollar damage amount of storms in given years. 
 
 
 How To Run:
@@ -66,14 +63,15 @@ U.S. States.
 
 To see the data visualization:
 
-"uv run python3 script/visualization.py"
+Run the command "uv run python script/interact.py"
 
-To run the full program, run the commands above. You should see a heat map of the United States come up showing outage severity data from 2021 (you can choose any year from 2016-2023. population will only be from 2023, so percentages will be slightly off in years that are not 2023. We will fix this.). You can hover over each region to see the data in numeric form. Eventually we plan to add the ability to toggle between years, and show heatmaps for both outages and renewables usage.
+The terminal will produce a message reading "Dash is running on: *insert link here*" Copy the link
+into your browser or click directly to be taken to the html website. 
 
+You should have two drop down boxes that will allow you to select from the outage, renewable percentage, and storm damage heat maps
+to be displayed on either the right or the left map. From there, a toggle at the bottom of the screen allows you to progress through the years from 2016-2022 and and compare over time.
 
-Our sample API request code can be found in script/API. We will not be using this code in the final project.
-
-
+Our sample API request code can be found in script/API. We will not be using this code in the final project. Similarly, 
 
 script/scratch/load_data.ipynb has several additional functions, which are not yet complete:
 
