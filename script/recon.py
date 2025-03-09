@@ -45,43 +45,35 @@ def build_outage_dict(path, year):
         except ValueError:
             continue
 
-        # sum each state's overall affected customers for a given year
-        state = row["Area Affected"]
+        # handle multiple states per row
+        states = row["Area Affected"].split(",")
 
-
-        if row["Area Affected"] not in dic:
-            dic[state] = num_affected
-        else:
-            dic[state] += num_affected
-
-
-    dic2 = {}
-    for lst, count in dic.items():
-        states = lst.split(",")
-
-        # this is handling multiple states in same row
         total = 0
         for state in states:
             state = state.strip()
             # calc total population over all states in row (ignore non-states)
             if state in state_pops.keys():
                 total += state_pops[state]
-        
+
+        # split affected customers over states porportionally based on population
         for state in states:
             state = state.strip()
 
             if state in state_pops.keys():
-                percent_affected = count*(state_pops[state]/total) # control for differing state pops - change this to affected customers
 
-                if state not in dic2:
-                    dic2[state] = percent_affected
+                # distribute affected customers
+                num_affected = num_affected*(state_pops[state]/total)
+
+                if state not in dic:
+                    dic[state] = num_affected
                 else:
-                    dic2[state] += percent_affected
+                    dic[state] += num_affected
 
-                if dic2[state] > state_pops[state]:
-                    dic2[state] = state_pops[state] # account for sum of total affected customers > state pop
+                if dic[state] > state_pops[state]:
+                    dic[state] = state_pops[state]
 
-    return {x: round((y/state_pops[x])*100, 2) for x,y in dic2.items()}
+    # calculate percentage affected
+    return {x: round((y/state_pops[x])*100, 2) for x,y in dic.items()}
 
 
 def build_storms_dict(path, year):
