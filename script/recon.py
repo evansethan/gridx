@@ -19,9 +19,13 @@ def build_re_dict(path, year):
     
     for abbrev in state_abbrev.values():
 
-        renews = re_dict[abbrev]
-        total = tot_dict[abbrev]
-        final_dict[abbrev] = round((renews / total) * 100, 2)
+        if abbrev not in re_dict or abbrev not in tot_dict:
+            final_dict[abbrev] = None
+        else:
+            renews = re_dict[abbrev]
+            total = tot_dict[abbrev]
+            final_dict[abbrev] = round((renews / total) * 100, 2)
+            
         
     return final_dict
 
