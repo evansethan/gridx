@@ -47,6 +47,8 @@ def build_outage_dict(path, year):
 
         # sum each state's overall affected customers for a given year
         state = row["Area Affected"]
+
+
         if row["Area Affected"] not in dic:
             dic[state] = num_affected
         else:
@@ -60,6 +62,7 @@ def build_outage_dict(path, year):
         # this is handling multiple states in same row
         total = 0
         for state in states:
+            state = state.strip()
             # calc total population over all states in row (ignore non-states)
             if state in state_pops.keys():
                 total += state_pops[state]

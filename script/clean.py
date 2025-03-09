@@ -45,15 +45,10 @@ def clean_outages(path):
     df = df.drop(index=0)
 
     for _, row in df.iterrows():
-        #row["Area Affected"] = "".join(re.findall(r"\b\w+:", row["Area Affected"])) # maybe this?
-        #row["Area Affected"] = re.sub(r":.*", "", row["Area Affected"]) # still some missing states maybe...
-
 
         # split text by ':' or ';' and strip spaces
         parts = [part.strip() for part in re.split(r'[:;]', row["Area Affected"])]
-
         row["Area Affected"] = ",".join(parts).rstrip(",")
-        print(row["Area Affected"])
     
         if row["Area Affected"] not in state_abbrev.keys():
             if row["Area Affected"] == "LUMA Energy":
