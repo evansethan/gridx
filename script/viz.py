@@ -3,12 +3,6 @@ import plotly.express as px
 from utils import state_abbrev
 from recon import build_outage_dict, build_storms_dict, build_re_dict
 
-pd.set_option('display.max_rows', None)  # Show all rows
-pd.set_option('display.max_columns', None)  # Show all columns
-pd.set_option('display.width', None)  # Adjust width to avoid line breaks
-pd.set_option('display.max_colwidth', None)  # Show full content in each cell
-
-
 def build_data_frame(path, year, column, build_function):
 
     dic = build_function(path, year)
@@ -29,10 +23,6 @@ def show_outage_map(df):
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
     fig.update_layout(legend_title_text='Percent')
     fig.update_layout(title_text='Outage Severity by U.S. State, 2016-2022<br>(As a Percent of State Population Who Experienced an Outage)', title_x=0.1)
-    #fig.update_geos(
-    #showsubunits=True, subunitcolor="black"
-    #)
-    # fig.show()
 
     return fig
 
@@ -50,7 +40,6 @@ def show_storm_map(df):
     fig.update_layout(legend_title_text='Dollar')
     fig.update_layout(title_text='Cost of Storms by U.S. State, 2016-2022<br>(Property/Crop Damage (USD) Per State Resident)', title_x=0.1)
     
-    # fig.show()
 
     return fig
 
@@ -65,14 +54,9 @@ def show_re_map(df):
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
     fig.update_layout(legend_title_text='Percent')
     fig.update_layout(title_text='Renewable Generation by U.S. State, 2016-2022<br>(As a Percent of Total Electricity Generation)', title_x=0.1)
-    #fig.update_geos(
-    #showsubunits=True, subunitcolor="black"
-    #)
-    # fig.show()
 
     return fig
 
-# def draw_line_graph(df):
 
 
 def generate_df():
@@ -80,7 +64,7 @@ def generate_df():
     ## outages
     appended_outage_data = []
     for year in range(2016, 2023):
-        path = f"../data/outages/{year}_Annual_Summary.xls"
+        path = f"data/outages/{year}_Annual_Summary.xls"
         data = build_data_frame(path, year, 'outage severity', build_outage_dict)
         appended_outage_data.append(data)
     outage = pd.concat(appended_outage_data)
@@ -89,7 +73,7 @@ def generate_df():
     ## storms
     appended_storm_data = []
     for year in range(2016, 2023):
-        path = f"../data/storms/storms_{year}.csv"
+        path = f"data/storms/storms_{year}.csv"
         data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
         appended_storm_data.append(data)
     storm = pd.concat(appended_storm_data)
@@ -97,7 +81,7 @@ def generate_df():
 
     ## renewables
     appended_re_data = []
-    path = "../data/renewables/prod_btu_re_te.xlsx"
+    path = "data/renewables/prod_btu_re_te.xlsx"
     for year in range(2016, 2023):
         data = build_data_frame(path, year, "Renewable Percent", build_re_dict)
         appended_re_data.append(data)
@@ -108,7 +92,6 @@ def generate_df():
     
     df = combined.melt(id_vars=['state', 'year'], var_name='indicator', value_name='value')
 
-    # return long_data
     return df
 
 
