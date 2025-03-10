@@ -1,4 +1,5 @@
 from dash import Dash, html, dcc, Input, Output, callback
+import webbrowser
 import pandas as pd
 import plotly.express as px
 from utils import state_abbrev
@@ -83,5 +84,8 @@ def update_maps(left_map_type, right_map_type, year_value):
 
     return left_fig, right_fig
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    webbrowser.open_new("http://localhost:8050")
+    app.run_server(debug=True)
+
