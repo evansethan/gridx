@@ -18,11 +18,10 @@ def show_outage_map(df):
     fig = px.choropleth(df, locations="state", locationmode="USA-states", 
                         color="outage severity", range_color=(0, 10), scope="usa", 
                         color_continuous_scale="Purples",
-                        title="Outage Severity by U.S. State, 2016-2022",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(legend_title_text='Percent')
-    fig.update_layout(title_text='Outage Severity by U.S. State, 2016-2022<br>(As a Percent of State Population Who Experienced an Outage)', title_x=0.1)
+    fig.update_layout(title_text='Annual Average Power Outage (2016-2022)', title_x=0.1)
+    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Event<br>Per Capita")))
 
     return fig
 
@@ -34,12 +33,10 @@ def show_storm_map(df):
                         color="cost per resident", range_color=(0, 150), 
                         color_continuous_scale="OrRd",
                         scope="usa", 
-                        title="Cost of Storms by U.S. State, 2016-2022",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(legend_title_text='Dollar')
-    fig.update_layout(title_text='Cost of Storms by U.S. State, 2016-2022<br>(Property/Crop Damage (USD) Per State Resident)', title_x=0.1)
-    
+    fig.update_layout(title_text='Annual Average Severe Weather (2016-2022)', title_x=0.1)
+    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Damage<br>Per Capita<br>(USD)")))
 
     return fig
 
@@ -52,8 +49,8 @@ def show_re_map(df):
                         scope="usa", 
                         animation_frame="year")
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(legend_title_text='Percent')
-    fig.update_layout(title_text='Renewable Generation by U.S. State, 2016-2022<br>(As a Percent of Total Electricity Generation)', title_x=0.1)
+    fig.update_layout(title_text='Annual Share of Renewable Generation in Power Mix (2016-2022)', title_x=0.1)
+    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="%")))
 
     return fig
 

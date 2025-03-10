@@ -72,13 +72,13 @@ def update_maps(left_map_type, right_map_type, year_value):
 
     left_fig.update_layout(
         margin={'l': 40, 'b': 40, 't': 80, 'r': 10},  
-        width=750,
+        width=700,
         height=500
     )
 
     right_fig.update_layout(
         margin={'l': 40, 'b': 40, 't': 80, 'r': 10},  
-        width=750,
+        width=700,
         height=500
     )
 
