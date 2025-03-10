@@ -87,5 +87,5 @@ def update_maps(left_map_type, right_map_type, year_value):
 
 if __name__ == '__main__':
     webbrowser.open_new("http://localhost:8050")
-    app.run_server(debug=True)
+    app.run_server()
 
