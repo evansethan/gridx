@@ -1,6 +1,6 @@
 import pandas as pd 
-from utils import build_pop_dict, state_abbrev
-from clean import clean_outages
+from script.utils import build_pop_dict, state_abbrev
+from script.clean import clean_outages
 import re
 import csv
 from pathlib import Path
@@ -108,7 +108,7 @@ def build_storms_dict(path, year):
                 dic[row["state"]] += damage
     state_damage = {}
     for state, cost in dic.items():
-        
+
         if state in pop_dict[year]:
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 
@@ -118,7 +118,7 @@ def build_storms_dict(path, year):
 def main():
     
     for i in range(2016,2023):
-        path = f"data/outages/{i}_Annual_Summary.xls"
+        path = f"script/data/outages/{i}_Annual_Summary.xls"
         print(build_outage_dict(path, i))
 
 

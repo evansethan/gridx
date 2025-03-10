@@ -1,5 +1,5 @@
 [project]
-name = "30122-project-flavortown"
+name = "script"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -22,3 +22,7 @@ dependencies = [
     "vega-datasets>=0.9.0",
     "xlrd>=2.0.1",
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
