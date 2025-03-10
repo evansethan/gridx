@@ -93,13 +93,3 @@ def generate_df():
     df = combined.melt(id_vars=['state', 'year'], var_name='indicator', value_name='value')
 
     return df
-
-
-    # with open('output/maps.html', 'a') as f:
-    #     f.write(outage.to_html(full_html=False, include_plotlyjs='cdn'))
-    #     f.write(re.to_html(full_html=False, include_plotlyjs='cdn'))
-    #     f.write(storm.to_html(full_html=False, include_plotlyjs='cdn'))
-
-
-# if __name__ == "__main__":
-    generate_df()

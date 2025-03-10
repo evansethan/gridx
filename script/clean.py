@@ -17,11 +17,14 @@ def clean_storms(path):
 
         for row in csv.DictReader(f):
             dic = {}
+
+            # skip rows with no damage recorded
             if row["DAMAGE_PROPERTY"] == '' or row["DAMAGE_PROPERTY"] == '0.00K':
                 if row["DAMAGE_CROPS"] == '' or row["DAMAGE_CROPS"] == '0.00K':
                     continue
 
-            state = ' '.join(word.capitalize() for word in row["STATE"].split()) # normalize state name
+            # standardize state name, build dictionary of relevant columns
+            state = ' '.join(word.capitalize() for word in row["STATE"].split())
             dic["year"] = row["YEAR"]
             dic["state"] = state
             dic["property_damage"] = row["DAMAGE_PROPERTY"]
@@ -29,6 +32,7 @@ def clean_storms(path):
 
             lst.append(dic)
 
+    # export to csv
     with open(f"data/storms/storms_{path}", "w") as f:
 
         fieldnames = lst[0].keys()
@@ -38,6 +42,10 @@ def clean_storms(path):
 
 
 def clean_outages(path):
+    '''
+    Takes in a path to a DOE-outage excel file and converts it to a cleaned
+    pandas dataframe
+    '''
 
     df = pd.DataFrame(pd.read_excel(path))
   
@@ -46,10 +54,11 @@ def clean_outages(path):
 
     for _, row in df.iterrows():
 
-        # split text by ':' or ';' and strip spaces
+        # split text by ':' or ';' and strip spaces, rejoin into single string
         parts = [part.strip() for part in re.split(r'[:;]', row["Area Affected"])]
         row["Area Affected"] = ",".join(parts).rstrip(",")
     
+        # handle energy companies / regions
         if row["Area Affected"] not in state_abbrev.keys():
             if row["Area Affected"] == "LUMA Energy":
                 row["Area Affected"] = "Puerto Rico"
@@ -59,13 +68,15 @@ def clean_outages(path):
                 row["Area Affected"] = "Minnesota,North Dakota,South Dakota"
             if "Western Area Power" in row["Area Affected"]:
                 row["Area Affected"] = "Montana,North Dakota,South Dakota,Nebraska,Iowa,Minnesota"
-            if row["Area Affected"] == 'Northern and Central California;' or 'Pacific Gas' in row["Area Affected"]:
+            if (row["Area Affected"] == 'Northern and Central California;'
+                or 'Pacific Gas' in row["Area Affected"]):
                 row["Area Affected"] = "California"
             if row["Area Affected"] == 'Central Oklahoma':
                 row["Area Affected"] = "Oklahoma"
             if row["Area Affected"] == 'Pacificorp':  
                 row["Area Affected"] = "Oregon,California,Washington,Oregon,Utah,Wyoming,Idaho"
-            if row["Area Affected"] == 'Tampa Electric Company' or row["Area Affected"] == 'Seminole Electric Cooperative Inc':  
+            if (row["Area Affected"] == 'Tampa Electric Company'
+                or row["Area Affected"] == 'Seminole Electric Cooperative Inc'):  
                 row["Area Affected"] = "Florida"
             if row["Area Affected"] == 'Tucson Electric Power':
                 row["Area Affected"] = "Arizona"
@@ -75,14 +86,9 @@ def clean_outages(path):
 
 def main():
 
-
-    for i in range(2016,2023):
-        path = f"data/outages/{i}_Annual_Summary.xls"
-        print(clean_outages(path))
-
-    # # only runs on raw data
-    # for i in range(2014,2025):
-    #     clean_storms(f"{i}.csv")
+    # only runs on raw data (see data/storms/noaa_source_urls.txt)
+    for i in range(2014,2025):
+        clean_storms(f"{i}.csv") # changed default filenames
 
 if __name__ == "__main__":
     main()

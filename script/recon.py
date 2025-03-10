@@ -32,6 +32,10 @@ def build_re_dict(path, year):
 
 
 def build_outage_dict(path, year):
+    '''
+    Builds a dictionary of outage severity (total outages per resident)
+    per U.S. state for a given year
+    '''
 
     df = clean_outages(path)
     state_pops = build_pop_dict()[year]
@@ -48,14 +52,16 @@ def build_outage_dict(path, year):
         # handle multiple states per row
         states = row["Area Affected"].split(",")
 
+        # calc total population for a given row (can be multiple states)
         total = 0
         for state in states:
             state = state.strip()
-            # calc total population over all states in row (ignore non-states)
+
+            # ignore non-states
             if state in state_pops.keys():
                 total += state_pops[state]
 
-        # split affected customers over states porportionally based on population
+        # for each state in a row,
         for state in states:
             state = state.strip()
 
@@ -64,11 +70,13 @@ def build_outage_dict(path, year):
                 # distribute affected customers
                 num_affected = num_affected*(state_pops[state]/total)
 
+                # add to overall sum
                 if state not in dic:
                     dic[state] = num_affected
                 else:
                     dic[state] += num_affected
 
+                # sum should not surpass population
                 if dic[state] > state_pops[state]:
                     dic[state] = state_pops[state]
 
@@ -77,17 +85,24 @@ def build_outage_dict(path, year):
 
 
 def build_storms_dict(path, year):
-    
+    '''
+    Builds a dictionary of storm damage (total property/crop cost per resident)
+    per U.S. state for a given year
+    '''
+
     pop_dict = build_pop_dict()
 
     dic = {}
     with open(path, "r") as f:
         
         for row in csv.DictReader(f):
+
+            # skip rows with no damage recorded
             if row["property_damage"] == "0.00K" or row["property_damage"] == '':
                 if row["crop_damage"] == "0.00K" or row["crop_damage"] == '':
                     continue
 
+            # convert damage cost (string) to float
             if "K" in row["property_damage"]:
                 damage = float(row["property_damage"][:-1]) * 1000
             if "M" in row["property_damage"]:
@@ -102,10 +117,13 @@ def build_storms_dict(path, year):
             if "B" in row["crop_damage"]:
                 damage += float(row["crop_damage"][:-1]) * 1000000000
 
+            # sum overall damage per state
             if row["state"] not in dic:
                 dic[row["state"]] = damage
             else:
                 dic[row["state"]] += damage
+
+    # compute cost per resident
     state_damage = {}
     for state, cost in dic.items():
         
@@ -113,14 +131,3 @@ def build_storms_dict(path, year):
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 
     return state_damage
-
-
-def main():
-    
-    for i in range(2016,2023):
-        path = f"data/outages/{i}_Annual_Summary.xls"
-        print(build_outage_dict(path, i))
-
-
-if __name__ == "__main__":
-    main()
