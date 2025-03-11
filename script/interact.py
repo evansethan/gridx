@@ -1,9 +1,4 @@
 from dash import Dash, html, dcc, Input, Output, callback
-import webbrowser
-import pandas as pd
-import plotly.express as px
-from utils import state_abbrev
-from recon import build_outage_dict, build_storms_dict, build_re_dict
 from viz import generate_df, show_outage_map, show_storm_map, show_re_map
 
 app = Dash(__name__)
@@ -83,9 +78,3 @@ def update_maps(left_map_type, right_map_type, year_value):
     )
 
     return left_fig, right_fig
-
-
-if __name__ == '__main__':
-    webbrowser.open_new("http://localhost:8050")
-    app.run_server()
-

@@ -1,8 +1,8 @@
-def main():
-
-    # TODO
-    pass
+from interact import app
+import webbrowser
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    webbrowser.open_new("http://localhost:8050")
+    app.run_server()
+
