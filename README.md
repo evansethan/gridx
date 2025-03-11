@@ -45,28 +45,8 @@ Information on dollar damage amount of storms in given years.
 
 How To Run:
 
-You can see the output of loading and cleaning of the OE-417 data with the commands
-
-“uv sync”
-"uv run python3 script/cleaning.py"
-
-The output shows each state's percentage of residents affected by an outage in 2023. You can also run this for years 2016-2022 by changing the file name.
-
-
-You can see the output of loading and cleaning of the EIA-860M data with the commands
-
-"uv run python3 script/spatial_join.py" (this just loads the data for now)
-
-The output shows each NERC region's data, including the coordinates to its respective polygon. However, it's important to note that we plan to change our regions of study from NERC regions to
-U.S. States.
-
-
-To see the data visualization:
-
-Run the command "uv run python script/interact.py"
-
-The terminal will produce a message reading "Dash is running on: *insert link here*" Copy the link
-into your browser or click directly to be taken to the html website. 
+run "uv sync"
+run "uv run python script"
 
 You should have two drop down boxes that will allow you to select from the outage, renewable percentage, and storm damage heat maps
 to be displayed on either the right or the left map. From there, a toggle at the bottom of the screen allows you to progress through the years from 2016-2022 and and compare over time.
