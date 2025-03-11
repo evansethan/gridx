@@ -48,8 +48,11 @@ Information on dollar damage amount of storms in given years.
 
 How To Run:
 
-run "uv sync" (install uv if necessary)
-run "uv run python script"
+"uv sync" (install uv if necessary)
+"uv run python script"
+
+To run pytests:
+"uv run pytest"
 
 You should have two drop down boxes that will allow you to select from the outage, renewable percentage, and storm damage heat maps
 to be displayed on either the right or the left map. From there, a toggle at the bottom of the screen allows you to progress through the years from 2016-2022 and and compare over time.
