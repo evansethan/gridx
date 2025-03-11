@@ -1,4 +1,4 @@
-from interact import app
+from app import app
 import webbrowser
 
 

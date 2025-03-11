@@ -1,9 +1,7 @@
 import pandas as pd 
 from utils import build_pop_dict, state_abbrev
 from clean import clean_outages
-import re
 import csv
-from pathlib import Path
 
 
 def build_re_dict(path, year):
@@ -12,14 +10,16 @@ def build_re_dict(path, year):
     percentage for a given year
     """
     final_dict = {} 
+
+    # read excel files, convert dataframes to dict for efficient search
     re_df = pd.read_excel(path, "Other renewables", header=2)
     tot_df = pd.read_excel(path, "Total primary energy", header=2)
 
     re_dict = re_df.set_index("State")[year].to_dict()
     tot_dict = tot_df.set_index("State")[year].to_dict()
     
+    # build dictionary mapping renewables percentages
     for abbrev in state_abbrev.values():
-
         if abbrev not in re_dict or abbrev not in tot_dict:
             final_dict[abbrev] = None
         else:
@@ -27,7 +27,6 @@ def build_re_dict(path, year):
             total = tot_dict[abbrev]
             final_dict[abbrev] = round((renews / total) * 100, 2)
             
-        
     return final_dict
 
 
