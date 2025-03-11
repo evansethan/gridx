@@ -1,12 +1,6 @@
 import pandas as pd 
-<<<<<<< HEAD:script/recon.py
-from script.utils import build_pop_dict, state_abbrev
-from script.clean import clean_outages
-import re
-=======
-from utils import build_pop_dict, state_abbrev
-from clean import clean_outages
->>>>>>> 2af9f97f5be25a991932cc286ffcdcd16df572c1:gridx/recon.py
+from gridx.utils import build_pop_dict, state_abbrev
+from gridx.clean import clean_outages
 import csv
 
 
@@ -136,8 +130,6 @@ def build_storms_dict(path, year):
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 
     return state_damage
-<<<<<<< HEAD:script/recon.py
-
 
 def main():
     
@@ -148,5 +140,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-=======
->>>>>>> 2af9f97f5be25a991932cc286ffcdcd16df572c1:gridx/recon.py

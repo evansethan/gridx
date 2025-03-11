@@ -1,9 +1,9 @@
-from script.utils import build_pop_dict
+from gridx.utils import build_pop_dict
 from pathlib import Path
 
 def test_build_pop_dict():
-    census_one_path = Path("script/data/state_pops/2010-2020.csv")
-    census_two_path = Path("script/data/state_pops/2020-2024.csv")
+    census_one_path = Path("data/state_pops/2010-2020.csv")
+    census_two_path = Path("data/state_pops/2020-2024.csv")
     assert census_one_path.exists(), "Check your census file paths"
     assert census_two_path.exists(), "Check your census file paths"
     test_dict = build_pop_dict()

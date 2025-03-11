@@ -1,5 +1,0 @@
-U.S. Census sources:
-
-2010-2020: webpage: https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/national/totals/nst-est2020.csv
-
-2020-2024: https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/state/totals/NST-EST2024-ALLDATA.csv

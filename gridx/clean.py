@@ -1,7 +1,7 @@
 import csv
 import pandas as pd
 import re
-from script.utils import state_abbrev
+from gridx.utils import state_abbrev
 
 
 def clean_storms(path):
