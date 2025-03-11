@@ -20,8 +20,8 @@ def show_outage_map(df):
                         color_continuous_scale="Purples",
                         animation_frame="year")
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(title_text='Annual Average Power Outage (2016-2022)', title_x=0.1)
-    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Event<br>Per Capita")))
+    fig.update_layout(title_text='Outages Per Resident (2016-2022)', title_x=0.1)
+    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Outages")))
 
     return fig
 
@@ -35,21 +35,21 @@ def show_storm_map(df):
                         scope="usa", 
                         animation_frame="year")
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(title_text='Annual Average Severe Weather (2016-2022)', title_x=0.1)
-    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Damage<br>Per Capita<br>(USD)")))
+    fig.update_layout(title_text='Cost of Severe Weather Per Resident (2016-2022)', title_x=0.1)
+    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Cost<br>(USD)")))
 
     return fig
 
 
 def show_re_map(df):
 
-    fig = px.choropleth(df, locations="state", locationmode="USA-states", 
-                        color="Renewable Percent", range_color=(0,25), 
+    fig = px.choropleth(df, locations="state", locationmode="USA-states",
+                        color="Renewable Percent", range_color=(0,25),
                         color_continuous_scale="GnBu",
                         scope="usa", 
                         animation_frame="year")
     fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(title_text='Annual Share of Renewable Generation in Power Mix (2016-2022)', title_x=0.1)
+    fig.update_layout(title_text='Renewable Production (Percent of Total Energy, 2016-2022)', title_x=0.1)
     fig.update_layout(coloraxis_colorbar=dict(title=dict(text="%")))
 
     return fig
@@ -66,7 +66,7 @@ def generate_df():
         appended_outage_data.append(data)
     outage = pd.concat(appended_outage_data)
     outage['state'] = outage['state'].map(state_abbrev)
-    
+
     ## storms
     appended_storm_data = []
     for year in range(2016, 2023):

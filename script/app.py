@@ -51,14 +51,14 @@ def create_map(map_type, df):
 
     elif map_type == 'Renewable Percent':
         return show_re_map(df_filtered)
-    
+
 @callback(
     [Output('left-map', 'figure'),
     Output('right-map', 'figure')],
     [Input('left-map-dropdown', 'value'),
     Input('right-map-dropdown', 'value'),
     Input('year-slider', 'value')]
-    )        
+    )
 def update_maps(left_map_type, right_map_type, year_value):
     df_year = df[df['year'] == year_value]
 

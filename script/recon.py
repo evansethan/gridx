@@ -9,7 +9,7 @@ def build_re_dict(path, year):
     Produces a dictionary mapping each state to its renewable production
     percentage for a given year
     """
-    final_dict = {} 
+    final_dict = {}
 
     # read excel files, convert dataframes to dict for efficient search
     re_df = pd.read_excel(path, "Other renewables", header=2)
@@ -17,7 +17,7 @@ def build_re_dict(path, year):
 
     re_dict = re_df.set_index("State")[year].to_dict()
     tot_dict = tot_df.set_index("State")[year].to_dict()
-    
+
     # build dictionary mapping renewables percentages
     for abbrev in state_abbrev.values():
         if abbrev not in re_dict or abbrev not in tot_dict:
@@ -26,7 +26,7 @@ def build_re_dict(path, year):
             renews = re_dict[abbrev]
             total = tot_dict[abbrev]
             final_dict[abbrev] = round((renews / total) * 100, 2)
-            
+
     return final_dict
 
 
@@ -93,7 +93,7 @@ def build_storms_dict(path, year):
 
     dic = {}
     with open(path, "r") as f:
-        
+
         for row in csv.DictReader(f):
 
             # skip rows with no damage recorded
@@ -108,7 +108,7 @@ def build_storms_dict(path, year):
                 damage = float(row["property_damage"][:-1]) * 1000000
             if "B" in row["property_damage"]:
                 damage = float(row["property_damage"][:-1]) * 1000000000
-            
+
             if "K" in row["crop_damage"]:
                 damage += float(row["crop_damage"][:-1]) * 1000
             if "M" in row["crop_damage"]:
@@ -125,7 +125,7 @@ def build_storms_dict(path, year):
     # compute cost per resident
     state_damage = {}
     for state, cost in dic.items():
-        
+
         if state in pop_dict[year]:
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 

@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from utils import state_abbrev
 
+
 def clean_storms(path):
     '''
     Cleans and exports shortened versions of large CSV files containing storm
@@ -48,7 +49,7 @@ def clean_outages(path):
     '''
 
     df = pd.DataFrame(pd.read_excel(path))
-  
+
     df.columns = df.iloc[0]
     df = df.drop(index=0)
 
@@ -57,7 +58,7 @@ def clean_outages(path):
         # split text by ':' or ';' and strip spaces, rejoin into single string
         parts = [part.strip() for part in re.split(r'[:;]', row["Area Affected"])]
         row["Area Affected"] = ",".join(parts).rstrip(",")
-    
+
         # handle energy companies / regions
         if row["Area Affected"] not in state_abbrev.keys():
             if row["Area Affected"] == "LUMA Energy":
@@ -73,22 +74,25 @@ def clean_outages(path):
                 row["Area Affected"] = "California"
             if row["Area Affected"] == 'Central Oklahoma':
                 row["Area Affected"] = "Oklahoma"
-            if row["Area Affected"] == 'Pacificorp':  
+            if row["Area Affected"] == 'Pacificorp':
                 row["Area Affected"] = "Oregon,California,Washington,Oregon,Utah,Wyoming,Idaho"
-            if (row["Area Affected"] == 'Tampa Electric Company'
-                or row["Area Affected"] == 'Seminole Electric Cooperative Inc'):  
+            if (row["Area Affected"] == 'Tampa Electric Company' 
+                or row["Area Affected"] == 'Seminole Electric Cooperative Inc'):
                 row["Area Affected"] = "Florida"
             if row["Area Affected"] == 'Tucson Electric Power':
                 row["Area Affected"] = "Arizona"
-                
+
     return df
 
 
 def main():
+    '''
+    Main function for cleaning, ran once on raw data to shorten csv's
+    (see data/storms/noaa_source_urls.txt)
+    '''
+    for i in range(2014, 2025):
+        clean_storms(f"{i}.csv")  # changed default filenames
 
-    # only runs on raw data (see data/storms/noaa_source_urls.txt)
-    for i in range(2014,2025):
-        clean_storms(f"{i}.csv") # changed default filenames
 
 if __name__ == "__main__":
     main()
