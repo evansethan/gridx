@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
-from utils import state_abbrev
-from recon import build_outage_dict, build_storms_dict, build_re_dict
+from gridx.utils import state_abbrev
+from gridx.recon import build_outage_dict, build_storms_dict, build_re_dict
 
 def build_data_frame(path, year, column, build_function):
 

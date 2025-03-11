@@ -1,6 +1,6 @@
 import pandas as pd 
-from utils import build_pop_dict, state_abbrev
-from clean import clean_outages
+from gridx.utils import build_pop_dict, state_abbrev
+from gridx.clean import clean_outages
 import csv
 
 
@@ -130,3 +130,13 @@ def build_storms_dict(path, year):
             state_damage[state] = round(cost/pop_dict[year][state], 2)
 
     return state_damage
+
+def main():
+    
+    for i in range(2016,2023):
+        path = f"script/data/outages/{i}_Annual_Summary.xls"
+        print(build_outage_dict(path, i))
+
+
+if __name__ == "__main__":
+    main()
