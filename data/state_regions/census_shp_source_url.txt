@@ -1,0 +1,3 @@
+U.S. Census source:
+
+2024: https://www.census.gov/cgi-bin/geo/shapefiles/index.php?year=2024&layergroup=States+%28and+equivalent%29

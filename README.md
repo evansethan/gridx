@@ -48,14 +48,15 @@ Population by state over each decade.
 U.S. Census Bureau
 URL: 
     https://www.census.gov/data/tables.html
-    (more detailed urls in data/outages/census_source_urls.txt)
+    (more detailed urls in data/state_pops/census_source_urls.txt)
 
 
 U.S. State Geographic Information (data/state_regions)
 Shapefiles of each U.S. State for use in gridx/viz.py
-TODO
+U.S. Census Bureau
 URL: 
-    TODO
+    https://www.census.gov/cgi-bin/geo/shapefiles/index.php
+    (more detailed urls in data/state_pregions/census_shp_source_urls.txt)
 
 
 Storm Bulk Data (data/storms)
@@ -63,7 +64,7 @@ Information on dollar damage amount of storms in given years.
 National Oceanic and Atmospheric Administration
 URL: 
     https://www.ncei.noaa.gov/access/billions/mapping
-    (more detailed urls in data/outages/noaa_source_urls.txt)
+    (more detailed urls in data/storms/noaa_source_urls.txt)
 
 
 
