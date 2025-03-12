@@ -1,4 +1,4 @@
-# Team Name: Flavortown
+# Team Name: Grid Expectations
 
 ## Members
 
@@ -45,17 +45,15 @@ Link: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/
 National Oceanic and Atmospheric Administration
 Information on dollar damage amount of storms in given years. 
 
-
 How To Run:
 
 "uv sync" (install uv if necessary)
-"uv run python script"
+"uv run gridx"
 
 To run pytests:
 "uv run pytest"
 
-You should have two drop down boxes that will allow you to select from the outage, renewable percentage, and storm damage heat maps
-to be displayed on either the right or the left map. From there, a toggle at the bottom of the screen allows you to progress through the years from 2016-2022 and and compare over time.
+A new tab will open in your browser with the program. You should have two drop-down boxes that will allow you to select from the outage, renewable percentage, and storm damage heat maps. From there, a toggle at the bottom of the screen allows you to progress through the years and compare over time. Hovering over a state reveals specific information for that map in the selected year.
 
 
 
