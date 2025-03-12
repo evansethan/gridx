@@ -29,7 +29,7 @@ def build_pop_dict():
 
     # census file 2010-2020.csv
     with open(census_file1, 'r') as file:
-        for row in csv.DictReader(file): #anyway to skip past the regions>
+        for row in csv.DictReader(file):
             state = row["NAME"]
             for i in range(2016, 2020):
                 year_dict[i][state] = int(row[f'POPESTIMATE{i}'])
