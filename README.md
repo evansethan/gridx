@@ -24,30 +24,37 @@ adoption and grid reliability in the U.S.
 Data Sources (in "data" folder)
 
 OE-417 (data/outages)
+Outage data (duration, number of customers affected) by U.S. region
+Department of Energy
 Link: https://doe417.pnnl.gov/instructions
       (more detailed urls in data/outages/doe_source_urls.txt)
-Department of Energy
-Outage data (duration, number of customers affected) by U.S. region
+
 
 State Energy Data System (renewables)
+Total energy production with renewables broken out by state
+U.S. Energy Information Administration
 Link: https://www.eia.gov/state/seds/seds-data-complete.php
       (more detailed urls in data/outages/eia_seds_source_urls.txt)
-U.S. Energy Information Administration
-Total energy production with renewables broken out by state
+
 
 U.S. Census State Population Data
-Link: 2010-2020: https://www.census.gov/programs-surveys/popest/technical-
-documentation/research/evaluation-estimates/2020-evaluation-estimates/2010s-state-total.html
-2020-2024: https://www.census.gov/data/tables/time-series/demo/popest/2020s-state-total.html
-U.S. Census Bureau
 Population by state over each decade.
+U.S. Census Bureau
+Link: 
+    2010-2020: https://www.census.gov/programs-surveys/popest/technical-documentation/research/evaluation-estimates/2020-evaluation-estimates/2010s-state-total.html
+    2020-2024: https://www.census.gov/data/tables/time-series/demo/popest/2020s-state-total.html
+    (more detailed urls in data/outages/census_source_urls.txt)
+
 
 Storm Bulk Data
-Link: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/
-National Oceanic and Atmospheric Administration
 Information on dollar damage amount of storms in given years. 
+National Oceanic and Atmospheric Administration
+Link: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/
+      (more detailed urls in data/outages/noaa_source_urls.txt)
 
-How To Run:
+
+
+## How To Run:
 
 "uv sync" (install uv if necessary)
 "uv run gridx"
@@ -56,10 +63,3 @@ To run pytests:
 "uv run pytest"
 
 A new tab will open in your browser with the program. You should have two drop-down boxes that will allow you to select from the outage, renewable percentage, and storm damage heat maps. From there, a toggle at the bottom of the screen allows you to progress through the years and compare over time. Hovering over a state reveals specific information for that map in the selected year.
-
-
-
-
-
-
-
