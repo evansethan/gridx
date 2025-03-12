@@ -1,6 +1,6 @@
 import pandas as pd 
-from utils import build_pop_dict, state_abbrev
-from clean import clean_outages
+from gridx.utils import build_pop_dict, state_abbrev
+from gridx.clean import clean_outages
 import csv
 
 def get_total_pop(states, state_pops):
@@ -20,7 +20,7 @@ def get_total_pop(states, state_pops):
 
 def get_damage(row, header):
     '''
-    Converts storm damage data from string to float
+    Gets storm damage from row and converts to float
     '''
     damage = 0
     if "K" in row[header]:
@@ -29,16 +29,19 @@ def get_damage(row, header):
         damage = float(row[header][:-1]) * 1000000
     if "B" in row[header]:
         damage = float(row[header][:-1]) * 1000000000
+
     return damage
 
 
 def load_re(path, year):
     '''
-    Load and convert renewables excel files to dict
+    Load and convert renewables and total energy excel sheets to dicts
     '''
+    # read excel
     re_df = pd.read_excel(path, "Other renewables", header=2)
     tot_df = pd.read_excel(path, "Total primary energy", header=2)
 
+    # convert to dict
     re_dict = re_df.set_index("State")[year].to_dict()
     tot_dict = tot_df.set_index("State")[year].to_dict()
 

@@ -59,31 +59,30 @@ def clean_outages(path):
     for _, row in df.iterrows():
 
         # split text by ':' or ';' and strip spaces, rejoin into single string
-        parts = [part.strip() for part in re.split(r'[:;]', row["Area Affected"])]
-        row["Area Affected"] = ",".join(parts).rstrip(",")
+        parts = [part.strip() for part in re.split(r'[:;]', row[area])]
+        row[area] = ",".join(parts).rstrip(",")
 
         # handle energy companies / regions
-        if row["Area Affected"] not in state_abbrev.keys():
-            if row["Area Affected"] == "LUMA Energy":
-                row["Area Affected"] = "Puerto Rico"
-            if row["Area Affected"] == "ISO New England":
-                row["Area Affected"] = "Connecticut,Maine,Massachusetts,New Hampshire,Rhode Island,Vermont"
-            if row["Area Affected"] == "Otter Tail Power Co":
-                row["Area Affected"] = "Minnesota,North Dakota,South Dakota"
-            if "Western Area Power" in row["Area Affected"]:
-                row["Area Affected"] = "Montana,North Dakota,South Dakota,Nebraska,Iowa,Minnesota"
-            if (row["Area Affected"] == 'Northern and Central California;'
-                or 'Pacific Gas' in row["Area Affected"]):
-                row["Area Affected"] = "California"
-            if row["Area Affected"] == 'Central Oklahoma':
-                row["Area Affected"] = "Oklahoma"
-            if row["Area Affected"] == 'Pacificorp':
-                row["Area Affected"] = "Oregon,California,Washington,Oregon,Utah,Wyoming,Idaho"
-            if (row["Area Affected"] == 'Tampa Electric Company' 
-                or row["Area Affected"] == 'Seminole Electric Cooperative Inc'):
-                row["Area Affected"] = "Florida"
-            if row["Area Affected"] == 'Tucson Electric Power':
-                row["Area Affected"] = "Arizona"
+        if row[area] not in state_abbrev.keys():
+            region = row[area]
+            if region == "LUMA Energy":
+                row[area] = "Puerto Rico"
+            if region == "ISO New England":
+                row[area] = "Connecticut,Maine,Massachusetts,New Hampshire,Rhode Island,Vermont"
+            if region == "Otter Tail Power Co":
+                row[area] = "Minnesota,North Dakota,South Dakota"
+            if "Western Area Power" in region:
+                row[area] = "Montana,North Dakota,South Dakota,Nebraska,Iowa,Minnesota"
+            if (region == 'Northern and Central California;' or 'Pacific Gas' in region):
+                row[area] = "California"
+            if region == 'Central Oklahoma':
+                row[area] = "Oklahoma"
+            if region == 'Pacificorp':
+                row[area] = "Oregon,California,Washington,Oregon,Utah,Wyoming,Idaho"
+            if (region == 'Tampa Electric Company' or region == 'Seminole Electric Cooperative Inc'):
+                row[area] = "Florida"
+            if region == 'Tucson Electric Power':
+                row[area] = "Arizona"
 
     return df
 
