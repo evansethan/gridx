@@ -25,14 +25,7 @@ def build_pop_dict():
     '''
     census_file1 = Path("data/state_pops/2010-2020.csv")
     census_file2 = Path("data/state_pops/2020-2024.csv")
-    year_dict = {2016: {},
-                 2017: {},
-                 2018: {},
-                 2019: {},
-                 2020: {},
-                 2021: {},
-                 2022: {},
-                }
+    year_dict = {y:{} for y in range(2016, 2023)}
 
     # census file 2010-2020.csv
     with open(census_file1, 'r') as file:
