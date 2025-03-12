@@ -42,3 +42,18 @@ def build_pop_dict():
                 year_dict[i][state] = int(row[f'POPESTIMATE{i}'])
 
     return year_dict
+
+
+def get_total_pop(states, state_pops):
+    '''
+    Calculates total population of a list of states
+    '''
+    total = 0
+    for state in states:
+        state = state.strip()
+
+        # ignore non-states in list
+        if state in state_pops.keys():
+            total += state_pops[state]
+
+    return total

@@ -1,22 +1,22 @@
 import pandas as pd 
-from gridx.utils import build_pop_dict, state_abbrev
+from gridx.utils import build_pop_dict, get_total_pop, state_abbrev
 from gridx.clean import clean_outages
 import csv
 
 
-def get_total_pop(states, state_pops):
+def load_re(path, year):
     '''
-    Helper: Calculates total population of a list of states
+    Helper: Loads renewables and total energy data
     '''
-    total = 0
-    for state in states:
-        state = state.strip()
+    # read excel
+    re_df = pd.read_excel(path, "Other renewables", header=2)
+    tot_df = pd.read_excel(path, "Total primary energy", header=2)
 
-        # ignore non-states
-        if state in state_pops.keys():
-            total += state_pops[state]
+    # convert to dict for efficient searching
+    re_dict = re_df.set_index("State")[year].to_dict()
+    tot_dict = tot_df.set_index("State")[year].to_dict()
 
-    return total
+    return re_dict, tot_dict
 
 
 def get_damage(row, header):
@@ -34,21 +34,6 @@ def get_damage(row, header):
         damage = float(row[header][:-1]) * 1000000000
 
     return damage
-
-
-def load_re(path, year):
-    '''
-    Helper: Loads renewables and total energy data
-    '''
-    # read excel
-    re_df = pd.read_excel(path, "Other renewables", header=2)
-    tot_df = pd.read_excel(path, "Total primary energy", header=2)
-
-    # convert to dict for efficient searching
-    re_dict = re_df.set_index("State")[year].to_dict()
-    tot_dict = tot_df.set_index("State")[year].to_dict()
-
-    return re_dict, tot_dict
 
 
 def build_re_dict(path, year):
@@ -86,11 +71,12 @@ def build_outage_dict(path, year):
     dic = {}
     for _, row in df.iterrows():
 
-        # skip rows with no customers affected
         try:
-            # otherwise convert to int
+            # convert num_affected to int
             num_affected = int(row["Number of Customers Affected"])
+
         except ValueError:
+            # skip "Unknown" rows
             continue
 
         # handle multiple states per row
