@@ -8,7 +8,8 @@ def clean_storms(path):
     '''
     Cleans and exports shortened versions of large CSV files containing storm
     damage data - only needs to be run once on raw data from NOAA (see
-    data/storms/noaa_source_urls.txt)
+    data/storms/noaa_source_urls.txt). Preexisting CSV files in data/storms are
+    output of this function. 
     '''
 
     lst = []
@@ -54,7 +55,6 @@ def clean_outages(path):
     df = df.drop(index=0)
 
     area = "Area Affected"
-    num = "Number of Customers Affected"
 
     for _, row in df.iterrows():
 
@@ -67,21 +67,21 @@ def clean_outages(path):
             region = row[area]
             if region == "LUMA Energy":
                 row[area] = "Puerto Rico"
-            if region == "ISO New England":
+            elif region == "ISO New England":
                 row[area] = "Connecticut,Maine,Massachusetts,New Hampshire,Rhode Island,Vermont"
-            if region == "Otter Tail Power Co":
+            elif region == "Otter Tail Power Co":
                 row[area] = "Minnesota,North Dakota,South Dakota"
-            if "Western Area Power" in region:
+            elif "Western Area Power" in region:
                 row[area] = "Montana,North Dakota,South Dakota,Nebraska,Iowa,Minnesota"
-            if (region == 'Northern and Central California;' or 'Pacific Gas' in region):
+            elif (region == 'Northern and Central California;' or 'Pacific Gas' in region):
                 row[area] = "California"
-            if region == 'Central Oklahoma':
+            elif region == 'Central Oklahoma':
                 row[area] = "Oklahoma"
-            if region == 'Pacificorp':
+            elif region == 'Pacificorp':
                 row[area] = "Oregon,California,Washington,Oregon,Utah,Wyoming,Idaho"
-            if (region == 'Tampa Electric Company' or region == 'Seminole Electric Cooperative Inc'):
+            elif (region == 'Tampa Electric Company' or region == 'Seminole Electric Cooperative Inc'):
                 row[area] = "Florida"
-            if region == 'Tucson Electric Power':
+            elif region == 'Tucson Electric Power':
                 row[area] = "Arizona"
 
     return df
@@ -89,11 +89,11 @@ def clean_outages(path):
 
 def main():
     '''
-    Main function for cleaning, ran once on raw data to shorten csv's
-    (see data/storms/noaa_source_urls.txt)
+    Main function for cleaning storm data, ran once and stored output in data/storms
+    (see data/storms/noaa_source_urls.txt for raw data)
     '''
     for i in range(2014, 2025):
-        clean_storms(f"{i}.csv")  # changed default filenames
+        clean_storms(f"{i}.csv")  # shortened default filenames
 
 
 if __name__ == "__main__":

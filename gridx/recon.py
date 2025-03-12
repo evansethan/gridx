@@ -6,7 +6,7 @@ import csv
 
 def load_re(path, year):
     '''
-    Helper: Loads renewables and total energy data
+    Helper: Loads renewables and total energy data for a given year
     '''
     # read excel
     re_df = pd.read_excel(path, "Other renewables", header=2)
