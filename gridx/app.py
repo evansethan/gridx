@@ -5,7 +5,10 @@ app = Dash(__name__)
 
 df = generate_df()
 
+# Define the app layout with dropdowns for selecting map types, 
+# graphs for visualization, and a slider for year selection
 app.layout = html.Div([
+    # Dropdown for selecting the data type for the left map
     html.Div([
         html.Label("Left Map:"),
         dcc.Dropdown(
@@ -15,6 +18,7 @@ app.layout = html.Div([
         ),
     ], style={'width': '49%', 'display': 'inline-block'}),
 
+    # Dropdown for selecting the data type for the right map
     html.Div([
         html.Label("Right Map:"),
         dcc.Dropdown(
@@ -29,6 +33,7 @@ app.layout = html.Div([
         dcc.Graph(id='right-map', style={'display': 'inline-block', 'width': '49%'}),
     ], style={'display': 'flex'}),
 
+    # Year slider
     html.Div(dcc.Slider(
         df['year'].min(),
         df['year'].max(),
@@ -40,6 +45,16 @@ app.layout = html.Div([
 ])
 
 def create_map(map_type, df):
+    """
+    Generates a map based on the selected data type.
+    
+    Parameters:
+        map_type (str): The type of data to visualize 
+        df (pd.DataFrame): The dataset filtered by year
+    
+    Returns:
+        A choropleth map based on the selected data type
+    """
     df_filtered = df[df['indicator'] == map_type]
     df_filtered = df_filtered.rename(columns={"value": map_type})
 
@@ -60,6 +75,17 @@ def create_map(map_type, df):
     Input('year-slider', 'value')]
     )
 def update_maps(left_map_type, right_map_type, year_value):
+    """
+    Updates the maps based on the selected data type and year.
+    
+    Parameters:
+        left_map_type (str): The selected data type for the left map
+        right_map_type (str): The selected data type for the right map
+        year_value (int): The selected year for visualization
+    
+    Returns:
+        tuple: Two choropleth maps, one for the left side and one for the right side
+    """
     df_year = df[df['year'] == year_value]
 
     left_fig = create_map(left_map_type, df_year)
