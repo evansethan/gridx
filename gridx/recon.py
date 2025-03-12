@@ -3,9 +3,10 @@ from gridx.utils import build_pop_dict, state_abbrev
 from gridx.clean import clean_outages
 import csv
 
+
 def get_total_pop(states, state_pops):
     '''
-    Calculate total population of a list of states
+    Helper: Calculates total population of a list of states
     '''
     total = 0
     for state in states:
@@ -20,9 +21,11 @@ def get_total_pop(states, state_pops):
 
 def get_damage(row, header):
     '''
-    Gets storm damage from row and converts to float
+    Helper: Gets storm damage from row and converts to float
     '''
     damage = 0
+
+    # convert shorthand to numeric value
     if "K" in row[header]:
         damage = float(row[header][:-1]) * 1000
     if "M" in row[header]:
@@ -35,13 +38,13 @@ def get_damage(row, header):
 
 def load_re(path, year):
     '''
-    Load and convert renewables and total energy excel sheets to dicts
+    Helper: Loads renewables and total energy data
     '''
     # read excel
     re_df = pd.read_excel(path, "Other renewables", header=2)
     tot_df = pd.read_excel(path, "Total primary energy", header=2)
 
-    # convert to dict
+    # convert to dict for efficient searching
     re_dict = re_df.set_index("State")[year].to_dict()
     tot_dict = tot_df.set_index("State")[year].to_dict()
 
@@ -58,11 +61,12 @@ def build_re_dict(path, year):
     # load data
     re_dict, tot_dict = load_re(path, year)
 
-    # build dictionary mapping renewables percentages to states
+    # for each state
     for abbrev in state_abbrev.values():
         if abbrev not in re_dict or abbrev not in tot_dict:
             final_dict[abbrev] = None
         else:
+            # calculate percent renewable output
             renews = re_dict[abbrev]
             total = tot_dict[abbrev]
             final_dict[abbrev] = round((renews / total) * 100, 2)
@@ -82,7 +86,9 @@ def build_outage_dict(path, year):
     dic = {}
     for _, row in df.iterrows():
 
+        # skip rows with no customers affected
         try:
+            # otherwise convert to int
             num_affected = int(row["Number of Customers Affected"])
         except ValueError:
             continue
