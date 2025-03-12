@@ -1,16 +1,10 @@
 Webpage host: https://doe417.pnnl.gov/ ("Archive" link at very bottom)
 
 Direct links:
-https://doe417.pnnl.gov/summaries/2023_Annual_Summary.xls
 https://doe417.pnnl.gov/summaries/2022_Annual_Summary.xls
 https://doe417.pnnl.gov/summaries/2021_Annual_Summary.xls
 https://doe417.pnnl.gov/summaries/2020_Annual_Summary.xls
 https://doe417.pnnl.gov/summaries/2019_Annual_Summary.xls
 https://doe417.pnnl.gov/summaries/2018_Annual_Summary.xls
-
-... and so on (descending years) until:
-
-https://doe417.pnnl.gov/summaries/2003_Annual_Summary.xls
-https://doe417.pnnl.gov/summaries/2002_Annual_Summary.xls
-https://doe417.pnnl.gov/summaries/2001_Annual_Summary.pdf # last two
-https://doe417.pnnl.gov/summaries/2000_Annual_Summary.pdf # are pdf's
+https://doe417.pnnl.gov/summaries/2017_Annual_Summary.xls
+https://doe417.pnnl.gov/summaries/2016_Annual_Summary.xls

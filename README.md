@@ -9,7 +9,7 @@
 
 Overview:
 
-This project aims to examine power outages and its association with energy generation
+This project aims to examine power outages and their association with energy generation
 sources in the United States. By analyzing the frequency and severity of power outages,
 we aim to explore patterns in grid reliability and generation mix across different
 regions and time periods. 
