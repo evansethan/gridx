@@ -58,8 +58,8 @@ def show_outage_map(df):
     Visualizes power outage severity across states on a choropleth map.
     """
     return show_map(df, "outage severity", 
-                    "Outages Per Resident (2016-2022)", 
-                    "Purples", (0, 0.1), "Outages")
+                    "Outages Per 100 Residents (2016-2022)", 
+                    "Purples", (0, 10), "Outages")
 
 
 def show_storm_map(df):
@@ -67,8 +67,8 @@ def show_storm_map(df):
     Visualizes severe weather damage cost per resident across states on a choropleth map.
     """
     return show_map(df, "cost per resident", 
-                    "Cost of Severe Weather Per Resident (2016-2022)", 
-                    "OrRd", (0, 150), "Cost<br>(USD)")
+                    "Cost of Severe Weather (2016-2022)", 
+                    "OrRd", (0, 150), "$ Cost Per <br>Resident")
 
 
 def show_re_map(df):
@@ -102,9 +102,7 @@ def generate_df():
     storm = pd.concat(storm_data)
     renewable = pd.concat(renewable_data)
 
-    print(outage)
     outage['state'] = outage['state'].map(state_abbrev)
-    print(outage)
     storm['state'] = storm['state'].map(state_abbrev)
     
     combined = outage.merge(storm, on=['state', 'year'], how='outer')\

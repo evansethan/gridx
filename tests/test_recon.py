@@ -21,7 +21,7 @@ def test_build_outage_dict():
     assert len(test_dict) == 42, "Your function is off from the 42 states in the present data"
     assert "Alaska" not in test_dict, "Your function contains a state that shouldn't be there, check your data"
     assert test_dict["Pennsylvania"] == 0.0, "Check your data values"
-    assert test_dict["Nevada"] == round((111671/2919555), 2), "Your calculation is wrong, check again"
+    assert test_dict["Nevada"] == round((111671/2919555) * 100, 2), "Your calculation is wrong, check again"
 
 
 def test_build_storms_dict():

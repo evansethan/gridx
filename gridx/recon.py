@@ -32,7 +32,7 @@ def build_re_dict(path, year):
 
 def build_outage_dict(path, year):
     '''
-    Builds a dictionary of outage severity (total outages per resident)
+    Builds a dictionary of outage severity (total outages per 100 residents)
     per U.S. state for a given year
     '''
 
@@ -80,12 +80,12 @@ def build_outage_dict(path, year):
                     dic[state] = state_pops[state]
 
     # calculate percentage affected
-    return {x: round((y/state_pops[x]), 2) for x,y in dic.items()}
+    return {x: round((y / state_pops[x] * 100), 2) for x,y in dic.items()}
 
 
 def build_storms_dict(path, year):
     '''
-    Builds a dictionary of storm damage (total property/crop cost per resident)
+    Builds a dictionary of storm damage (total property/crop cost per 100 residents)
     per U.S. state for a given year
     '''
 
