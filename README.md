@@ -33,24 +33,25 @@ Link: https://doe417.pnnl.gov/instructions
 State Energy Data System (renewables)
 Total energy production with renewables broken out by state
 U.S. Energy Information Administration
-Link: https://www.eia.gov/state/seds/seds-data-complete.php
-      (more detailed urls in data/outages/eia_seds_source_urls.txt)
+URL: 
+    https://www.eia.gov/state/seds/seds-data-complete.php
+    (more detailed urls in data/outages/eia_seds_source_urls.txt)
 
 
 U.S. Census State Population Data
 Population by state over each decade.
 U.S. Census Bureau
-Link: 
-    2010-2020: https://www.census.gov/programs-surveys/popest/technical-documentation/research/evaluation-estimates/2020-evaluation-estimates/2010s-state-total.html
-    2020-2024: https://www.census.gov/data/tables/time-series/demo/popest/2020s-state-total.html
+URL: 
+    https://www.census.gov/data/tables.html
     (more detailed urls in data/outages/census_source_urls.txt)
 
 
 Storm Bulk Data
 Information on dollar damage amount of storms in given years. 
 National Oceanic and Atmospheric Administration
-Link: https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/
-      (more detailed urls in data/outages/noaa_source_urls.txt)
+URL: 
+    https://www.ncei.noaa.gov/access/billions/mapping
+    (more detailed urls in data/outages/noaa_source_urls.txt)
 
 
 
