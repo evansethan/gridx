@@ -53,6 +53,9 @@ def clean_outages(path):
     df.columns = df.iloc[0]
     df = df.drop(index=0)
 
+    area = "Area Affected"
+    num = "Number of Customers Affected"
+
     for _, row in df.iterrows():
 
         # split text by ':' or ';' and strip spaces, rejoin into single string

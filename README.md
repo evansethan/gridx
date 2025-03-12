@@ -1,4 +1,4 @@
-# Project Name: Grid Expectations
+# Project Name: GridX
 
 ## Members
 
@@ -52,7 +52,7 @@ URL:
 
 
 U.S. State Geographic Information (data/state_regions)
-Shapefiles of each U.S. State for use in visualization
+Shapefiles of each U.S. State for use in gridx/viz.py
 TODO
 URL: 
     TODO
@@ -74,5 +74,7 @@ URL:
 
 A new tab will open in your browser with the program. You should have two drop-down boxes that will allow you to select from the outage, renewable percentage, and storm damage heat maps. From there, a toggle at the bottom of the screen allows you to progress through the years and compare over time. Hovering over a state reveals specific information for that map in the selected year.
 
-To run pytests for program:
+To quit the program, press Ctrl-C from the command line and exit the browser. Since the program interface is browser-only, any command line output (including warnings about file sizes and servers) can be ignored.
+
+To run pytests:
 "uv run pytest"

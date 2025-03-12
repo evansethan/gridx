@@ -1,7 +1,48 @@
 import pandas as pd 
-from gridx.utils import build_pop_dict, state_abbrev
-from gridx.clean import clean_outages
+from utils import build_pop_dict, state_abbrev
+from clean import clean_outages
 import csv
+
+def get_total_pop(states, state_pops):
+    '''
+    Calculate total population of a list of states
+    '''
+    total = 0
+    for state in states:
+        state = state.strip()
+
+        # ignore non-states
+        if state in state_pops.keys():
+            total += state_pops[state]
+
+    return total
+
+
+def get_damage(row, header):
+    '''
+    Converts storm damage data from string to float
+    '''
+    damage = 0
+    if "K" in row[header]:
+        damage = float(row[header][:-1]) * 1000
+    if "M" in row[header]:
+        damage = float(row[header][:-1]) * 1000000
+    if "B" in row[header]:
+        damage = float(row[header][:-1]) * 1000000000
+    return damage
+
+
+def load_re(path, year):
+    '''
+    Load and convert renewables excel files to dict
+    '''
+    re_df = pd.read_excel(path, "Other renewables", header=2)
+    tot_df = pd.read_excel(path, "Total primary energy", header=2)
+
+    re_dict = re_df.set_index("State")[year].to_dict()
+    tot_dict = tot_df.set_index("State")[year].to_dict()
+
+    return re_dict, tot_dict
 
 
 def build_re_dict(path, year):
@@ -11,14 +52,10 @@ def build_re_dict(path, year):
     """
     final_dict = {}
 
-    # read excel files, convert dataframes to dict for efficient search
-    re_df = pd.read_excel(path, "Other renewables", header=2)
-    tot_df = pd.read_excel(path, "Total primary energy", header=2)
+    # load data
+    re_dict, tot_dict = load_re(path, year)
 
-    re_dict = re_df.set_index("State")[year].to_dict()
-    tot_dict = tot_df.set_index("State")[year].to_dict()
-
-    # build dictionary mapping renewables percentages
+    # build dictionary mapping renewables percentages to states
     for abbrev in state_abbrev.values():
         if abbrev not in re_dict or abbrev not in tot_dict:
             final_dict[abbrev] = None
@@ -42,7 +79,6 @@ def build_outage_dict(path, year):
     dic = {}
     for _, row in df.iterrows():
 
-        # skip rows with "Unknown" Number of Customers Affected
         try:
             num_affected = int(row["Number of Customers Affected"])
         except ValueError:
@@ -51,14 +87,8 @@ def build_outage_dict(path, year):
         # handle multiple states per row
         states = row["Area Affected"].split(",")
 
-        # calc total population for a given row (can be multiple states)
-        total = 0
-        for state in states:
-            state = state.strip()
-
-            # ignore non-states
-            if state in state_pops.keys():
-                total += state_pops[state]
+        # get total population of row
+        total = get_total_pop(states, state_pops)
 
         # for each state in a row,
         for state in states:
@@ -79,13 +109,13 @@ def build_outage_dict(path, year):
                 if dic[state] > state_pops[state]:
                     dic[state] = state_pops[state]
 
-    # calculate percentage affected
+    # calculate outages per 100 residents
     return {x: round((y / state_pops[x] * 100), 2) for x,y in dic.items()}
 
 
 def build_storms_dict(path, year):
     '''
-    Builds a dictionary of storm damage (total property/crop cost per 100 residents)
+    Builds a dictionary of storm damage (total property/crop cost per resident)
     per U.S. state for a given year
     '''
 
@@ -101,22 +131,11 @@ def build_storms_dict(path, year):
                 if row["crop_damage"] == "0.00K" or row["crop_damage"] == '':
                     continue
 
-            # convert damage cost (string) to float
-            if "K" in row["property_damage"]:
-                damage = float(row["property_damage"][:-1]) * 1000
-            if "M" in row["property_damage"]:
-                damage = float(row["property_damage"][:-1]) * 1000000
-            if "B" in row["property_damage"]:
-                damage = float(row["property_damage"][:-1]) * 1000000000
+            # get total damage cost
+            damage = (get_damage(row, "property_damage") +
+                      get_damage(row, "crop_damage"))
 
-            if "K" in row["crop_damage"]:
-                damage += float(row["crop_damage"][:-1]) * 1000
-            if "M" in row["crop_damage"]:
-                damage += float(row["crop_damage"][:-1]) * 1000000
-            if "B" in row["crop_damage"]:
-                damage += float(row["crop_damage"][:-1]) * 1000000000
-
-            # sum overall damage per state
+            # sum total damage per state
             if row["state"] not in dic:
                 dic[row["state"]] = damage
             else:

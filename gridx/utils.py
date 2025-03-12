@@ -42,3 +42,16 @@ def build_pop_dict():
                 year_dict[i][state] = int(row[f'POPESTIMATE{i}'])
 
     return year_dict
+
+
+def load_re(path, year):
+    '''
+    Load and convert renewables excel files to dict
+    '''
+    re_df = pd.read_excel(path, "Other renewables", header=2)
+    tot_df = pd.read_excel(path, "Total primary energy", header=2)
+
+    re_dict = re_df.set_index("State")[year].to_dict()
+    tot_dict = tot_df.set_index("State")[year].to_dict()
+
+    return re_dict, tot_dict
