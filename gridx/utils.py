@@ -19,9 +19,9 @@ state_abbrev = {
 
 def build_pop_dict():
     '''
-    Creates list of dictionaries where each dictionary represents a year between
-    2016 and 2022. The keys are states, and the values are population according
-    to Census data.
+    Creates dict of dictionaries where each dictionary represents a year between
+    2016 and 2022. Outer keys are years, inner keys are states, innermost values
+    are the state populations for that year.
     '''
     census_file1 = Path("data/state_pops/2010-2020.csv")
     census_file2 = Path("data/state_pops/2020-2024.csv")
