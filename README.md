@@ -25,11 +25,13 @@ Data Sources (in "data" folder)
 
 OE-417 (data/outages)
 Link: https://doe417.pnnl.gov/instructions
+      (more detailed urls in data/outages/doe_source_urls.txt)
 Department of Energy
 Outage data (duration, number of customers affected) by U.S. region
 
 State Energy Data System (renewables)
 Link: https://www.eia.gov/state/seds/seds-data-complete.php
+      (more detailed urls in data/outages/eia_seds_source_urls.txt)
 U.S. Energy Information Administration
 Total energy production with renewables broken out by state
 
