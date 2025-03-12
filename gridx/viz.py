@@ -54,76 +54,12 @@ def show_map(df, color_column, title, color_scale, range_color, colorbar_title):
 
 
 def show_outage_map(df):
-<<<<<<< HEAD:gridx/viz.py
-
-    df['abbrev'] = df['state'].map(state_abbrev)
-    fig = px.choropleth(df, locations="state", locationmode="USA-states", 
-                        color="outage severity", range_color=(0, 0.1), scope="usa", 
-                        color_continuous_scale="Purples",
-                        animation_frame="year")
-    fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(title_text="Outages Per Resident (2016-2022)", title_x=0.1)
-    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Outages")))
-
-    return fig
-
-
-def show_storm_map(df):
-    
-    df['abbrev'] = df['state'].map(state_abbrev)
-    fig = px.choropleth(df, locations="state", locationmode="USA-states", 
-                        color="cost per resident", range_color=(0, 150), 
-                        color_continuous_scale="OrRd",
-                        scope="usa", 
-                        animation_frame="year")
-    fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(title_text='Cost of Severe Weather Per Resident (2016-2022)', title_x=0.1)
-    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="Cost<br>(USD)")))
-
-    return fig
-
-
-def show_re_map(df):
-
-    fig = px.choropleth(df, locations="state", locationmode="USA-states",
-                        color="Renewable Percent", range_color=(0,25),
-                        color_continuous_scale="GnBu",
-                        scope="usa", 
-                        animation_frame="year")
-    fig.update_traces(marker_line_width=0.8, marker_line_color="#bcbcbc", marker_opacity=1.0)
-    fig.update_layout(title_text='Renewable Production (Percent of Total Energy, 2016-2022)', title_x=0.1)
-    fig.update_layout(coloraxis_colorbar=dict(title=dict(text="%")))
-
-    return fig
-
-
-
-def generate_df():
-
-    ## outages
-    appended_outage_data = []
-    for year in range(2016, 2023):
-        path = f"data/outages/{year}_Annual_Summary.xls"
-        data = build_data_frame(path, year, 'outage severity', build_outage_dict)
-        appended_outage_data.append(data)
-    outage = pd.concat(appended_outage_data)
-    outage['state'] = outage['state'].map(state_abbrev)
-
-    ## storms
-    appended_storm_data = []
-    for year in range(2016, 2023):
-        path = f"data/storms/storms_{year}.csv"
-        data = build_data_frame(path, year, 'cost per resident', build_storms_dict)
-        appended_storm_data.append(data)
-    storm = pd.concat(appended_storm_data)
-    storm['state'] = storm['state'].map(state_abbrev)
-=======
     """
     Visualizes power outage severity across states on a choropleth map.
     """
     return show_map(df, "outage severity", 
-                    "Annual Average Power Outage (2016-2022)", 
-                    "Purples", (0, 10), "Event<br>Per Capita")
+                    "Outages Per Resident (2016-2022)", 
+                    "Purples", (0, 0.1), "Outages")
 
 
 def show_storm_map(df):
@@ -131,8 +67,8 @@ def show_storm_map(df):
     Visualizes severe weather damage cost per resident across states on a choropleth map.
     """
     return show_map(df, "cost per resident", 
-                    "Annual Average Severe Weather (2016-2022)", 
-                    "OrRd", (0, 150), "Damage<br>Per Capita<br>(USD)")
+                    "Cost of Severe Weather Per Resident (2016-2022)", 
+                    "OrRd", (0, 150), "Cost<br>(USD)")
 
 
 def show_re_map(df):
@@ -140,7 +76,7 @@ def show_re_map(df):
     Visualizes share of renewable energy generation across states on a choropleth map.
     """
     return show_map(df, "Renewable Percent", 
-                    "Annual Share of Renewable Generation in Power Mix (2016-2022)", 
+                    "Renewable Production (Percent of Total Energy, 2016-2022)", 
                     "GnBu", (0, 25), "%")
 
 
@@ -152,7 +88,6 @@ def generate_df():
     Returns:
         pd.DataFrame: DataFrame with state, year, indicator type, and corresponding values
     """
->>>>>>> jinnyk:script/viz.py
 
     years = range(2016, 2023)
     
@@ -166,6 +101,11 @@ def generate_df():
     outage = pd.concat(outage_data)
     storm = pd.concat(storm_data)
     renewable = pd.concat(renewable_data)
+
+    print(outage)
+    outage['state'] = outage['state'].map(state_abbrev)
+    print(outage)
+    storm['state'] = storm['state'].map(state_abbrev)
     
     combined = outage.merge(storm, on=['state', 'year'], how='outer')\
                      .merge(renewable, on=['state', 'year'], how='outer')
