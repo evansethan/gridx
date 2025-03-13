@@ -117,8 +117,6 @@ def build_storms_dict(path, year):
     per U.S. state for a given year
     '''
 
-    #pop_dict = build_pop_dict()
-
     dic = {}
     with open(path, "r") as f:
 
