@@ -3,6 +3,9 @@ from gridx.utils import build_pop_dict, get_total_pop, state_abbrev
 from gridx.clean import clean_outages
 import csv
 
+# build global state population dict
+pop_dict = build_pop_dict()
+
 
 def load_re(path, year):
     '''
@@ -66,7 +69,7 @@ def build_outage_dict(path, year):
     '''
 
     df = clean_outages(path)
-    state_pops = build_pop_dict()[year]
+    state_pops = pop_dict[year]
 
     dic = {}
     for _, row in df.iterrows():
@@ -114,7 +117,7 @@ def build_storms_dict(path, year):
     per U.S. state for a given year
     '''
 
-    pop_dict = build_pop_dict()
+    #pop_dict = build_pop_dict()
 
     dic = {}
     with open(path, "r") as f:
