@@ -58,8 +58,8 @@ def show_outage_map(df):
     Visualizes power outage severity across states on a choropleth map.
     """
     return show_map(df, "outage severity", 
-                    "Outages Per 100 Residents (2016-2022)", 
-                    "Purples", (0, 10), "Outages")
+                    "Outages Per 100 Residents", 
+                    "Purples", (0, 10), "#")
 
 
 def show_storm_map(df):
@@ -67,8 +67,8 @@ def show_storm_map(df):
     Visualizes severe weather damage cost per resident across states on a choropleth map.
     """
     return show_map(df, "cost per resident", 
-                    "Cost of Severe Weather (2016-2022)", 
-                    "OrRd", (0, 150), "$ Cost Per <br>Resident")
+                    "Cost of Severe Weather per State Resident", 
+                    "OrRd", (0, 150), "$")
 
 
 def show_re_map(df):
@@ -76,7 +76,7 @@ def show_re_map(df):
     Visualizes share of renewable energy generation across states on a choropleth map.
     """
     return show_map(df, "Renewable Percent", 
-                    "Renewable Production (Percent of Total Energy, 2016-2022)", 
+                    "Renewables as Percent of Total State Energy Generation", 
                     "GnBu", (0, 25), "%")
 
 
